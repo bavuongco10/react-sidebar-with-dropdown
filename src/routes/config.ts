@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
+import {ReactElement, ReactNode} from "react";
 
 export type RouteType = {
-  element: ReactNode,
+  element: ReactElement,
   state: string,
   index?: boolean,
   path?: string,

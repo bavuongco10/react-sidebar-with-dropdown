@@ -1,23 +1,27 @@
-import { ReactNode, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setAppState } from "../../redux/features/appStateSlice";
+import {ReactElement, useEffect} from "react";
+import {Typography} from "@mui/material";
+import {routeAtom} from "../../atom/atom";
+import { useSetAtom } from "jotai";
 
 type Props = {
-  state?: string,
-  children: ReactNode;
+  state: string,
+  children: ReactElement
 };
 
-const PageWrapper = (props: Props) => {
-  const dispatch = useDispatch();
-
+const PageWrapper = ({ state, children }: Props) => {
+  const setRoute = useSetAtom(routeAtom)
+  
   useEffect(() => {
-    if (props.state) {
-      dispatch(setAppState(props.state));
+    if (state) {
+      setRoute(state);
     }
-  }, [dispatch, props]);
+  }, [state, setRoute]);
 
   return (
-    <>{props.children}</>
+    <>
+      <Typography variant="h1">{state}</Typography>
+      {children}
+    </>
   );
 };
 

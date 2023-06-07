@@ -1,88 +1,74 @@
-import DashboardPageLayout from "../pages/dashboard/DashboardPageLayout";
-import HomePage from "../pages/home/HomePage";
 import { RouteType } from "./config";
-import DefaultPage from "../pages/dashboard/DefaultPage";
-import DashboardIndex from "../pages/dashboard/DashboardIndex";
-import ChangelogPage from "../pages/changelog/ChangelogPage";
-import AnalyticsPage from "../pages/dashboard/AnalyticsPage";
-import SaasPage from "../pages/dashboard/SaasPage";
-import ComponentPageLayout from "../pages/component/ComponentPageLayout";
-import AlertPage from "../pages/component/AlertPage";
-import ButtonPage from "../pages/component/ButtonPage";
-import InstallationPage from "../pages/installation/InstallationPage";
-import DocumentationPage from "../pages/documentation/DocumentationPage";
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import HomeIcon from '@mui/icons-material/Home';
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
+import {Outlet} from "react-router-dom";
+import {Typography} from "@mui/material";
+
+const GenericPage = () => <Typography variant="body1">Content: Generic page</Typography>
 
 const appRoutes: RouteType[] = [
   {
-    index: true,
-    element: <HomePage />,
+    element: <GenericPage />,
     state: "home"
   },
   {
-    path: "/installation",
-    element: <InstallationPage />,
-    state: "installation",
+    path: "/home",
+    element: <GenericPage/>,
+    state: "home",
     sidebarProps: {
       displayText: "Home",
       icon: <HomeIcon />
     }
   },
   {
-    path: "/dashboard",
-    element: <DashboardPageLayout />,
-    state: "dashboard",
+    path: "/new",
+    element: <Outlet />,
+    state: "new",
     sidebarProps: {
       displayText: "New",
       icon: <AddCircleOutlinedIcon />
     },
     child: [
       {
-        index: true,
-        element: <DashboardIndex />,
-        state: "dashboard.index"
-      },
-      {
-        path: "/dashboard/default",
-        element: <DefaultPage />,
-        state: "dashboard.default",
+        path: "/new/exportlc",
+        element: <GenericPage />,
+        state: "new.exportlc",
         sidebarProps: {
           displayText: "Export LC"
         },
       },
       {
-        path: "/dashboard/analytics",
-        element: <AnalyticsPage />,
-        state: "dashboard.analytics",
+        path: "/new/importlc",
+        element: <GenericPage />,
+        state: "new.imporlc",
         sidebarProps: {
           displayText: "Import LC"
-        }
+        },
       },
       {
-        path: "/dashboard/saas",
-        element: <SaasPage />,
-        state: "dashboard.saas",
+        path: "/new/outgoingguarantee",
+        element: <GenericPage />,
+        state: "new.outgoingguarantee",
         sidebarProps: {
           displayText: "Outgoing Guarantee"
         }
       },
       {
-        path: "/dashboard/saass",
-        element: <SaasPage />,
-        state: "dashboard.saass",
+        path: "/new/incomingguarantee",
+        element: <GenericPage />,
+        state: "new.incomingguarantee",
         sidebarProps: {
           displayText: "Incoming Guarantee"
         }
       },
       {
-        path: "/dashboard/saasss",
-        element: <SaasPage />,
-        state: "dashboard.saasss",
+        path: "/new/standbylc",
+        element: <GenericPage />,
+        state: "new.standbylc",
         sidebarProps: {
           displayText: "Standby LC"
         }
@@ -90,42 +76,42 @@ const appRoutes: RouteType[] = [
     ]
   },
   {
-    path: "/component",
-    element: <ComponentPageLayout />,
-    state: "component",
+    path: "/reports",
+    element: <Outlet />,
+    state: "reports",
     sidebarProps: {
       displayText: "Reports",
       icon: <BarChartOutlinedIcon />
     },
     child: [
       {
-        path: "/component/alert",
-        element: <AlertPage />,
-        state: "component.alert",
+        path: "/reports/usage",
+        element: <GenericPage />,
+        state: "reports.usage",
         sidebarProps: {
           displayText: "Usage Metrics Report"
         },
       },
       {
-        path: "/component/button",
-        element: <ButtonPage />,
-        state: "component.button",
+        path: "/reports/applicant",
+        element: <GenericPage />,
+        state: "reports.applicant",
         sidebarProps: {
           displayText: "Applicant"
         },
         child: [
           {
-            path: "/component/button/1",
-            element: <AlertPage />,
-            state: "component.button.1",
+            path: "/reports/applicant/open",
+            element: <GenericPage />,
+            state: "reports.applicant.open",
             sidebarProps: {
               displayText: "Open deals"
             },
           },
           {
-            path: "/component/button/2",
-            element: <AlertPage />,
-            state: "component.button.2",
+            path: "/reports/applicant/closed",
+            element: <GenericPage />,
+            state: "reports.applicant.closed",
             sidebarProps: {
               displayText: "Closed deals"
             },
@@ -135,9 +121,9 @@ const appRoutes: RouteType[] = [
     ]
   },
   {
-    path: "/documentation",
-    element: <DocumentationPage />,
-    state: "documentation",
+    path: "/noticiations",
+    element: <GenericPage />,
+    state: "notifications",
     sidebarProps: {
       displayText: "Notifications",
       icon: <NotificationsActiveIcon />
@@ -145,17 +131,17 @@ const appRoutes: RouteType[] = [
     type: "popup"
   },
   {
-    path: "/changelog",
-    element: <ChangelogPage />,
-    state: "changelog",
+    path: "/administrator",
+    element: <GenericPage />,
+    state: "administrator",
     sidebarProps: {
       displayText: "Administrator",
       icon: <SettingsIcon />
     },
   },
   {
-    path: "/component",
-    element: <ComponentPageLayout />,
+    path: "/profile",
+    element: <Outlet />,
     state: "profile",
     stickToBottom: true,
     sidebarProps: {
@@ -164,16 +150,16 @@ const appRoutes: RouteType[] = [
     },
     child: [
       {
-        path: "/component/alert",
-        element: <AlertPage />,
+        path: "/profile/alert",
+        element: <GenericPage />,
         state: "profile.alert",
         sidebarProps: {
           displayText: "Alert"
         },
       },
       {
-        path: "/component/button",
-        element: <ButtonPage />,
+        path: "/profile/button",
+        element: <GenericPage />,
         state: "profile.button",
         sidebarProps: {
           displayText: "Button"

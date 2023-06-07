@@ -1,10 +1,10 @@
 import {Box, ListItemButton, ListItemIcon, Popper} from "@mui/material";
-import {useSelector} from "react-redux";
 import colorConfigs from "../../configs/colorConfigs";
-import {RootState} from "../../redux/store";
 import {RouteType} from "../../routes/config";
 import {Link} from "react-router-dom";
 import React from "react";
+import {routeAtom} from "../../atom/atom";
+import { useAtomValue } from "jotai";
 
 type Props = {
   item: RouteType;
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const SidebarItem = ({item, root = false}: Props) => {
-  const {appState} = useSelector((state: RootState) => state.appState);
+  const appState = useAtomValue(routeAtom);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     if (item.type !== "popup") return;

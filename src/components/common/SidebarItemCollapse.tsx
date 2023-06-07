@@ -5,8 +5,8 @@ import {RouteType} from "../../routes/config";
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import SidebarItem from "./SidebarItem";
-import {useSelector} from "react-redux";
-import {RootState} from "../../redux/store";
+import {useAtomValue} from "jotai";
+import {routeAtom} from "../../atom/atom";
 
 type Props = {
   item: RouteType;
@@ -15,8 +15,8 @@ type Props = {
 
 const SidebarItemCollapse = ({item, root}: Props) => {
   const [open, setOpen] = useState(false);
+  const appState = useAtomValue(routeAtom);
   
-  const {appState} = useSelector((state: RootState) => state.appState);
   
   useEffect(() => {
     if (appState.includes(item.state)) {

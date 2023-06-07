@@ -5,9 +5,6 @@ import appRoutes from "../../routes/appRoutes";
 import SidebarItem from "./SidebarItem";
 import SidebarItemCollapse from "./SidebarItemCollapse";
 
-const ICON = require("../../assets/images/rivo-icon.png");
-const LOGO = require("../../assets/images/rivo.png");
-
 const Sidebar = () => {
   return (
     <Drawer
@@ -39,8 +36,6 @@ const Sidebar = () => {
             direction="row"
             justifyContent="center"
           >
-            {/*<img src={ICON}/>*/}
-            {/*<img src={LOGO}/>*/}
             <img src={assets.images.logo} style={{ height: "44px", background: "#364BB5"}}/>
           </Stack>
         </Toolbar>
