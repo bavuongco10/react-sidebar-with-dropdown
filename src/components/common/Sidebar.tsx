@@ -4,8 +4,18 @@ import sizeConfigs from "../../configs/sizeConfigs";
 import appRoutes from "../../routes/appRoutes";
 import SidebarItem from "./SidebarItem";
 import SidebarItemCollapse from "./SidebarItemCollapse";
+import {useEffect, useState} from "react";
+import {useAtomValue} from "jotai";
+import {routeAtom} from "../../atom/routeAtom";
 
 const Sidebar = () => {
+  const appState = useAtomValue(routeAtom);
+  const [activeItem, setActiveItem] = useState("");
+  
+  useEffect(() => {
+    setActiveItem(appState);
+  },[appState])
+  
   return (
     <Drawer
       variant="permanent"
@@ -41,8 +51,8 @@ const Sidebar = () => {
         </Toolbar>
         {appRoutes.map((route, index) => {
           if(!route.sidebarProps) return null;
-          if(route.child) return <SidebarItemCollapse item={route} key={index} root/>
-          return <SidebarItem item={route} key={index} root/>
+          if(route.child) return <SidebarItemCollapse item={route} key={route.state} root setActiveItem={setActiveItem} activeItem={activeItem} />
+          return <SidebarItem key={route.state} item={route} root setActiveItem={setActiveItem} />
           }
         )}
       </List>

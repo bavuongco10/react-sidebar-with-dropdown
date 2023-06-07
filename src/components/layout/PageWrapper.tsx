@@ -1,6 +1,6 @@
 import {ReactElement, useEffect} from "react";
 import {Typography} from "@mui/material";
-import {routeAtom} from "../../atom/atom";
+import {routeAtom} from "../../atom/routeAtom";
 import { useSetAtom } from "jotai";
 
 type Props = {
