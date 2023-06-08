@@ -5,7 +5,7 @@ import appRoutes from "../../routes/appRoutes";
 import SidebarItem from "./SidebarItem";
 import SidebarItemCollapse from "./SidebarItemCollapse";
 import {useEffect, useState} from "react";
-import {useAtomValue} from "jotai";
+import {useAtomValue, useAtom} from "jotai";
 import {routeAtom} from "../../atom/routeAtom";
 import {sideBarAtom} from "../../atom/sidebarAtom";
 import { styled, Theme, CSSObject } from '@mui/material/styles';
@@ -54,7 +54,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 
 const Sidebar = () => {
   const appState = useAtomValue(routeAtom);
-  const open = useAtomValue(sideBarAtom);
+  const [open, setOpen] = useAtom(sideBarAtom);
   const [activeItem, setActiveItem] = useState("");
   
   useEffect(() => {
@@ -65,6 +65,8 @@ const Sidebar = () => {
     <Drawer
       variant="permanent"
       open={open}
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
     >
       <List key={open?.toString()} disablePadding sx={{
         display: "flex",
