@@ -37,7 +37,7 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact }: 
     setAnchorEl2(anchorEl2 ? null : event.currentTarget);
   };
   const openPopper2 = Boolean(anchorEl2);
-  console.log(openPopper2)
+
   const popper2 = (
     <Popper open={openPopper2} anchorEl={anchorEl2} placement="right-start" sx={{
       left: "20px !important",
@@ -103,11 +103,11 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact }: 
         }}>
           <List sx={{ width: "100%"}}>
             <ListItem disablePadding>
-              <ListItemButton onClick={handleClickCompact2}>
+              <ListItemButton>
                 <ListItemIcon>
                 </ListItemIcon>
                 <ListItemText primary="Inbox" />
-                {compact && popper2}
+                {/*{compact && popper2}*/}
               </ListItemButton>
             </ListItem>
             <ListItem disablePadding>
