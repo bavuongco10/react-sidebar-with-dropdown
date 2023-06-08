@@ -65,8 +65,6 @@ const Sidebar = () => {
     <Drawer
       variant="permanent"
       open={open}
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
     >
       <List key={open?.toString()} disablePadding sx={{
         display: "flex",
