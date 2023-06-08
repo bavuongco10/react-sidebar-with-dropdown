@@ -1,4 +1,4 @@
-import {Drawer as MuiDrawer, List, Stack,  Box, Toolbar} from "@mui/material";
+import {Drawer as MuiDrawer, List, Stack, Box, Toolbar} from "@mui/material";
 import assets from "../../assets";
 import sizeConfigs from "../../configs/sizeConfigs";
 import appRoutes from "../../routes/appRoutes";
@@ -65,7 +65,7 @@ const Sidebar = () => {
   
   return (
     <div>
-      {openTempoDrawer && <MuiDrawer
+      <MuiDrawer
         anchor="left"
         open={openTempoDrawer}
       >
@@ -96,8 +96,8 @@ const Sidebar = () => {
             }
           )}
         </List>
-      </MuiDrawer>}
-      {openTempoDrawer && <Box sx={{ width: "80px" , height: "100vh"}} />}
+      </MuiDrawer>
+      {openTempoDrawer && <Box sx={{width: "80px", height: "100vh"}}/>}
       {!openTempoDrawer && <Drawer
         variant="permanent"
         open={open}
