@@ -1,4 +1,4 @@
-import {Drawer as MuiDrawer, List, Stack, SwipeableDrawer, Toolbar} from "@mui/material";
+import {Drawer as MuiDrawer, List, Stack,  Box, Toolbar} from "@mui/material";
 import assets from "../../assets";
 import sizeConfigs from "../../configs/sizeConfigs";
 import appRoutes from "../../routes/appRoutes";
@@ -96,8 +96,8 @@ const Sidebar = () => {
             }
           )}
         </List>
-      </MuiDrawer>
-      }
+      </MuiDrawer>}
+      {openTempoDrawer && <Box sx={{ width: "80px" , height: "100vh"}} />}
       {!openTempoDrawer && <Drawer
         variant="permanent"
         open={open}
