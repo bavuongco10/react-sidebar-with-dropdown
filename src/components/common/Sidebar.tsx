@@ -52,7 +52,7 @@ const Sidebar = () => {
         {appRoutes.map((route, index) => {
           if(!route.sidebarProps) return null;
           if(route.child) return <SidebarItemCollapse item={route} key={route.state} root setActiveItem={setActiveItem} activeItem={activeItem} />
-          return <SidebarItem key={route.state} item={route} root setActiveItem={setActiveItem} />
+          return <SidebarItem key={route.state} item={route} root setActiveItem={setActiveItem} activeItem={activeItem}/>
           }
         )}
       </List>

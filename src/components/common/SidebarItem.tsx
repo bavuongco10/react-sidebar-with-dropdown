@@ -11,9 +11,10 @@ type Props = {
   item: RouteType;
   root?: boolean;
   setActiveItem: (value: string) => void;
+  activeItem?: string;
 };
 
-const SidebarItem = ({item, root = false, setActiveItem }: Props) => {
+const SidebarItem = ({item, root = false, setActiveItem, activeItem }: Props) => {
   const appState = useAtomValue(routeAtom);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   
@@ -23,6 +24,12 @@ const SidebarItem = ({item, root = false, setActiveItem }: Props) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
   const open = Boolean(anchorEl);
+  
+  useEffect(() => {
+    if(activeItem !== item.state) {
+      setAnchorEl(null)
+    };
+  },[activeItem, item.state])
   
   const popper = (
     <Popper key={open.toString()} open={open} anchorEl={anchorEl} placement="right-start" sx={{
@@ -51,13 +58,12 @@ const SidebarItem = ({item, root = false, setActiveItem }: Props) => {
     </Popper>
   )
   
-  if (!item.sidebarProps || !item.path) return null;
+  if (!item.sidebarProps) return null;
   
   return (
     <ListItemButtonContainer root={root}>
       <StyledListItemButton
-        // @ts-ignore
-        component={Link}
+        {...item.path ? { component: Link } : {}}
         to={item.path}
         onClick={handleClick}
         selected={appState === item.state}
