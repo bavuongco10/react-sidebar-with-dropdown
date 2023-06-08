@@ -117,6 +117,32 @@ const appRoutes: RouteType[] = [
             },
           },
         ]
+      },
+      {
+        path: "/reports/b",
+        element: <GenericPage />,
+        state: "reports.b",
+        sidebarProps: {
+          displayText: "BBBBB"
+        },
+        child: [
+          {
+            path: "/reports/b/1",
+            element: <GenericPage />,
+            state: "reports.b.1",
+            sidebarProps: {
+              displayText: "BBBB1"
+            },
+          },
+          {
+            path: "/reports/b/2",
+            element: <GenericPage />,
+            state: "reports.b.2",
+            sidebarProps: {
+              displayText: "BBBBB2"
+            },
+          },
+        ]
       }
     ]
   },

@@ -30,9 +30,11 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem }: Props) =>
       setOpen(true);
     }
   }, [appState, item.state]);
-  
+
   useEffect(() => {
-    if(root && !activeItem.includes(item.state)) {
+    if(activeItem !== item.state) {
+      if(root && activeItem.includes(item.state)) return;
+      if(activeItem.includes(item.state)) return;
       setOpen(false);
     }
   },[root, activeItem, item.state])
