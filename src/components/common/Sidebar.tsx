@@ -66,7 +66,7 @@ const Sidebar = () => {
       variant="permanent"
       open={open}
     >
-      <List disablePadding sx={{
+      <List key={open?.toString()} disablePadding sx={{
         display: "flex",
         flexDirection: "column",
         height: "100%"
