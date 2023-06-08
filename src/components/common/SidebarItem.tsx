@@ -1,7 +1,7 @@
 import {Box, ListItemIcon, Popper} from "@mui/material";
 import {RouteType} from "../../routes/config";
 import {Link} from "react-router-dom";
-import React, {useEffect} from "react";
+import React, {MutableRefObject, Ref, useEffect, useRef} from "react";
 import {routeAtom} from "../../atom/routeAtom";
 import {useAtomValue} from "jotai";
 import {StyledListItemButton} from "./StyledListItemButton";
@@ -12,17 +12,18 @@ type Props = {
   root?: boolean;
   setActiveItem: (value: string) => void;
   activeItem?: string;
+  compact?: boolean;
 };
 
-const SidebarItem = ({item, root = false, setActiveItem, activeItem }: Props) => {
+const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact }: Props) => {
   const appState = useAtomValue(routeAtom);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setActiveItem(item.state);
     if (item.type !== "popup") return;
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
+  
   const open = Boolean(anchorEl);
   
   useEffect(() => {
@@ -32,8 +33,8 @@ const SidebarItem = ({item, root = false, setActiveItem, activeItem }: Props) =>
   },[activeItem, item.state])
   
   const popper = (
-    <Popper key={open.toString()} open={open} anchorEl={anchorEl} placement="right-start" sx={{
-      transform: "translate3d(280px, 300px, 0px) !important"
+    <Popper open={open} anchorEl={anchorEl} placement="right-start" sx={{
+      left: "20px !important",
     }}>
       <Box sx={{
         padding: "24px",
@@ -72,7 +73,7 @@ const SidebarItem = ({item, root = false, setActiveItem, activeItem }: Props) =>
         <ListItemIcon>
           {item.sidebarProps.icon && item.sidebarProps.icon}
         </ListItemIcon>
-        {item.sidebarProps.displayText}
+        {!compact && item.sidebarProps.displayText}
       </StyledListItemButton>
       {item.type === "popup" && popper}
     </ListItemButtonContainer>

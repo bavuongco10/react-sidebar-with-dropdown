@@ -1,6 +1,7 @@
 const sizeConfigs = {
   sidebar: {
-    width: "17rem"
+    width: "17rem",
+    mini: "80px"
   }
 };
 

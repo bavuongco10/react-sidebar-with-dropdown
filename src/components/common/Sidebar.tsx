@@ -1,4 +1,4 @@
-import {Drawer, List, Stack, Toolbar} from "@mui/material";
+import {Drawer as MuiDrawer, List, Stack, Toolbar} from "@mui/material";
 import assets from "../../assets";
 import sizeConfigs from "../../configs/sizeConfigs";
 import appRoutes from "../../routes/appRoutes";
@@ -7,33 +7,64 @@ import SidebarItemCollapse from "./SidebarItemCollapse";
 import {useEffect, useState} from "react";
 import {useAtomValue} from "jotai";
 import {routeAtom} from "../../atom/routeAtom";
+import {sideBarAtom} from "../../atom/sidebarAtom";
+import { styled, Theme, CSSObject } from '@mui/material/styles';
+
+const openedMixin = (theme: Theme): CSSObject => ({
+  borderRight: "0px",
+  width: sizeConfigs.sidebar.width,
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.enteringScreen,
+  }),
+  overflowX: 'hidden',
+});
+
+const closedMixin = (theme: Theme): CSSObject => ({
+  borderRight: "0px",
+  transition: theme.transitions.create('width', {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  overflowX: 'hidden',
+  width: sizeConfigs.sidebar.mini,
+});
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    width: sizeConfigs.sidebar.width,
+    whiteSpace: 'nowrap',
+    flexShrink: 0,
+    boxSizing: "border-box",
+    color: "#102347",
+    fontStyle: "normal",
+    fontWeight: "500",
+    fontSize: "16px",
+    lineHeight: "20px",
+    ...(open && {
+      ...openedMixin(theme),
+      '& .MuiDrawer-paper': openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      '& .MuiDrawer-paper': closedMixin(theme),
+    }),
+  }),
+);
 
 const Sidebar = () => {
   const appState = useAtomValue(routeAtom);
+  const open = useAtomValue(sideBarAtom);
   const [activeItem, setActiveItem] = useState("");
   
   useEffect(() => {
     setActiveItem(appState);
-  },[appState])
+  },[appState]);
   
   return (
     <Drawer
       variant="permanent"
-      sx={{
-        width: sizeConfigs.sidebar.width,
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
-          width: sizeConfigs.sidebar.width,
-          boxSizing: "border-box",
-          borderRight: "0px",
-          backgroundColor: "white",
-          color: "#102347",
-          fontStyle: "normal",
-          fontWeight: "500",
-          fontSize: "16px",
-          lineHeight: "20px",
-        }
-      }}
+      open={open}
     >
       <List disablePadding sx={{
         display: "flex",
@@ -51,8 +82,8 @@ const Sidebar = () => {
         </Toolbar>
         {appRoutes.map((route, index) => {
           if(!route.sidebarProps) return null;
-          if(route.child) return <SidebarItemCollapse item={route} key={route.state} root setActiveItem={setActiveItem} activeItem={activeItem} />
-          return <SidebarItem key={route.state} item={route} root setActiveItem={setActiveItem} activeItem={activeItem}/>
+          if(route.child) return <SidebarItemCollapse item={route} key={route.state} root setActiveItem={setActiveItem} activeItem={activeItem} compact={!open} />
+          return <SidebarItem key={route.state} item={route} root setActiveItem={setActiveItem} activeItem={activeItem} compact={!open} />
           }
         )}
       </List>

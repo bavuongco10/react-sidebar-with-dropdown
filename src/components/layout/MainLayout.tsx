@@ -8,21 +8,12 @@ const MainLayout = () => {
   return (
     <Box sx={{ display: "flex" }}>
       <Topbar />
-      <Box
-        component="nav"
-        sx={{
-          width: sizeConfigs.sidebar.width,
-          flexShrink: 0
-        }}
-      >
-        <Sidebar />
-      </Box>
+      <Sidebar />
       <Box
         component="main"
         sx={{
           flexGrow: 1,
           p: 3,
-          width: `calc(100% - ${sizeConfigs.sidebar.width})`,
           minHeight: "100vh",
           backgroundColor: "#F7F8FC"
         }}

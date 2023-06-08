@@ -14,9 +14,10 @@ type Props = {
   root?: boolean;
   setActiveItem: (value: string) => void;
   activeItem: string;
+  compact?: boolean;
 };
 
-const SidebarItemCollapse = ({item, root, setActiveItem, activeItem }: Props) => {
+const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact }: Props) => {
   const [open, setOpen] = useState(false);
   const appState = useAtomValue(routeAtom);
   
@@ -53,13 +54,13 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem }: Props) =>
         <ListItemIcon>
           {item.sidebarProps.icon && item.sidebarProps.icon}
         </ListItemIcon>
-        <ListItemText
+        {!compact && <ListItemText
           disableTypography
           primary={item.sidebarProps.displayText}
-        />
-        {(open) ? <ExpandLessOutlinedIcon/> : <ExpandMoreOutlinedIcon/>}
+        />}
+        {!compact ? (open) ? <ExpandLessOutlinedIcon/> : <ExpandMoreOutlinedIcon/> : null}
       </StyledListItemButton>
-      <Collapse in={open} timeout="auto">
+      {!compact && <Collapse in={open} timeout="auto">
         <List>
           {item.child?.map((route, index) => {
             if (!route.sidebarProps) return null;
@@ -68,6 +69,7 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem }: Props) =>
           })}
         </List>
       </Collapse>
+      }
     </ListItemButtonContainer>
   );
 };
