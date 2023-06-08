@@ -65,7 +65,7 @@ const Sidebar = () => {
   
   return (
     <div>
-      <MuiDrawer
+      {openTempoDrawer && <MuiDrawer
         anchor="left"
         open={openTempoDrawer}
       >
@@ -96,7 +96,7 @@ const Sidebar = () => {
             }
           )}
         </List>
-      </MuiDrawer>
+      </MuiDrawer>}
       {openTempoDrawer && <Box sx={{width: "80px", height: "100vh"}}/>}
       {!openTempoDrawer && <Drawer
         variant="permanent"
