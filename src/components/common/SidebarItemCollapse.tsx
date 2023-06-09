@@ -16,9 +16,10 @@ type Props = {
   setActiveItem: (value: string) => void;
   activeItem: string;
   compact?: boolean;
+  textVariant?: string;
 };
 
-const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact }: Props) => {
+const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, textVariant }: Props) => {
   const [open, setOpen] = useState(false);
   const appState = useAtomValue(routeAtom);
 
@@ -51,6 +52,7 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact }: 
         active={appState.includes(item.state) && open}
         variant={root ? "primary" : "secondary"}
         collapsable
+        textVariant={textVariant}
       >
         <ListItemIcon>
           {item.sidebarProps.icon && item.sidebarProps.icon}
@@ -65,8 +67,8 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact }: 
         <List>
           {item.child?.map((route, index) => {
             if (!route.sidebarProps) return null;
-            if (route.child) return <SidebarItemCollapse item={route} key={index} setActiveItem={setActiveItem} activeItem={activeItem} />
-            return <SidebarItem item={route} key={index} setActiveItem={setActiveItem}/>
+            if (route.child) return <SidebarItemCollapse item={route} key={index} setActiveItem={setActiveItem} activeItem={activeItem} textVariant="subTitle1"/>
+            return <SidebarItem item={route} key={index} setActiveItem={setActiveItem} textVariant="subText1" />
           })}
         </List>
       </Collapse>

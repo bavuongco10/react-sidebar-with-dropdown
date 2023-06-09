@@ -13,9 +13,10 @@ type Props = {
   setActiveItem: (value: string) => void;
   activeItem?: string;
   compact?: boolean;
+  textVariant?: string;
 };
 
-const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact }: Props) => {
+const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact, textVariant }: Props) => {
   const appState = useAtomValue(routeAtom);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -69,6 +70,7 @@ const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact }: 
         onClick={handleClick}
         selected={appState === item.state}
         variant={root ? "primary" : "secondary"}
+        textVariant={textVariant}
       >
         <ListItemIcon>
           {item.sidebarProps.icon && item.sidebarProps.icon}

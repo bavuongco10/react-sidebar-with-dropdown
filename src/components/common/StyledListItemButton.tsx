@@ -45,4 +45,18 @@ export const StyledListItemButton = styled(ListItemButton)((props) => {
       height: "2.5rem",
     },
   }
+}),variant({
+  prop: "textVariant",
+  variants: {
+    subText1: {
+      fontSize: "14px",
+      fontWeight: "400"
+    },
+    subTitle1: {
+      fontSize: "14px",
+      fontWeight: "500",
+      color: "#90949C"
+  
+}
+  }
 }));
