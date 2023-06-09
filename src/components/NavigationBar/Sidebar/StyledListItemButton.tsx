@@ -1,4 +1,4 @@
-import colorConfigs from "../colorConfigs";
+import themeConfig from "../themeConfig";
 import {ListItemButton} from "@mui/material";
 import styled from '@emotion/styled';
 import { variant } from 'styled-system';
@@ -10,29 +10,29 @@ export const StyledListItemButton = styled(ListItemButton)((props) => {
     margin: "0 0.75rem",
     paddingLeft: "1rem",
     "&.Mui-selected": {
-      backgroundColor: colorConfigs.sidebar.selected.bg,
-      color: colorConfigs.sidebar.selected.text,
+      backgroundColor: themeConfig.sidebar.selected.bg,
+      color: themeConfig.sidebar.selected.text,
       "& .MuiListItemIcon-root": {
-        color: colorConfigs.sidebar.selected.icon
+        color: themeConfig.sidebar.selected.icon
       }
     },
     "&:hover": {
-      color: colorConfigs.sidebar.hover.text,
+      color: themeConfig.sidebar.hover.text,
       "& .MuiListItemIcon-root": {
-        color: colorConfigs.sidebar.hover.icon
+        color: themeConfig.sidebar.hover.icon
       }
     },
     "& .MuiListItemIcon-root": {
       minWidth: "2.5rem",
-      color: colorConfigs.sidebar.icon,
+      color: themeConfig.sidebar.icon,
     },
     // @ts-ignore
     ...(props.active ? {
       backgroundColor: "rgba(0, 0, 0, 0.04)",
-      color: colorConfigs.sidebar.hover.text,
+      color: themeConfig.sidebar.hover.text,
       "& .MuiListItemIcon-root": {
         minWidth: "2.5rem",
-        color: colorConfigs.sidebar.hover.icon
+        color: themeConfig.sidebar.hover.icon
       }
     } : {})
   }
@@ -49,7 +49,7 @@ export const StyledListItemButton = styled(ListItemButton)((props) => {
   prop: "textVariant",
   variants: {
     subText1: {
-      fontWeight: "400"
+      fontWeight: "normal"
     },
     subTitle1: {
       color: "#757575",

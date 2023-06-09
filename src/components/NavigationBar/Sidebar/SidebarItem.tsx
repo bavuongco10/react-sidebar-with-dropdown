@@ -1,11 +1,12 @@
 import {Box, ListItemIcon, Popper} from "@mui/material";
-import {RouteType} from "../../routes/config";
+import {RouteType} from "../../../routes/config";
 import {Link} from "react-router-dom";
 import React, {useEffect} from "react";
-import {routeAtom} from "../../atom/routeAtom";
+import {routeAtom} from "../../../atom/routeAtom";
 import {useAtomValue} from "jotai";
 import {StyledListItemButton} from "./StyledListItemButton";
 import {ListItemButtonContainer} from "./ListItemButtonContainer";
+import themeConfig from "../themeConfig";
 
 type Props = {
   item: RouteType;
@@ -41,13 +42,13 @@ const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact, te
         padding: "24px",
         width: "282px",
         height: "330px",
-        background: "#364BB5",
+        background: themeConfig.sidebar.selected.bg,
         boxShadow: "0px 2px 6px 2px rgba(167, 167, 167, 0.5)",
         borderRadius: "1rem"
       }}>
-        <div style={{
+        <Box sx={{
           fontStyle: "normal",
-          fontWeight: "500",
+          fontWeight: "medium",
           fontSize: "18px",
           lineHeight: "23px",
           display: "flex",
@@ -55,7 +56,7 @@ const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact, te
           color: "#FFFFFF"
         }}>
           Notifications
-        </div>
+        </Box>
       </Box>
     </Popper>
   )

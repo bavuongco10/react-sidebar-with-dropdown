@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { Box, Toolbar } from "@mui/material";
-import Sidebar from "../common/Sidebar";
-import Topbar from "../common/Topbar";
+import Sidebar from "../NavigationBar/Sidebar";
+import Topbar from "../NavigationBar/Topbar";
 
 const MainLayout = () => {
   return (

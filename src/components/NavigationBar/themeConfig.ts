@@ -1,9 +1,13 @@
-const colorConfigs = {
+const themeConfig = {
+  width: {
+    sidebar: {
+      full: "17rem",
+      mini: "80px"
+    }
+  },
   sidebar: {
-    bg: "#233044",
-    color: "#eeeeee",
-    hoverBg: "#F5F5F5",
-    activeBg: "#364BB5",
+    bg: "#FFFFFF",
+    color: "#102347",
     icon: "#364BB5",
     selected: {
       text: "#FFFFFF",
@@ -17,4 +21,4 @@ const colorConfigs = {
   },
 };
 
-export default colorConfigs;
+export default themeConfig;

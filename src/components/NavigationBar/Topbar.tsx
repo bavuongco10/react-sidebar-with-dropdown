@@ -1,9 +1,8 @@
 import { AppBar, Toolbar, Typography } from "@mui/material";
-import colorConfigs from "../../configs/colorConfigs";
-import sizeConfigs from "../../configs/sizeConfigs";
 import {sideBarAtom} from "../../atom/sidebarAtom";
 import { useAtom } from "jotai";
 import { HamburgerArrowAlt } from 'react-animated-burgers'
+import themeConfig from "./themeConfig";
 
 const Topbar = () => {
   const [open, toggle] = useAtom(sideBarAtom);
@@ -11,10 +10,10 @@ const Topbar = () => {
     <AppBar
       position="fixed"
       sx={{
-        width: `calc(100% - ${open ? sizeConfigs.sidebar.width : sizeConfigs.sidebar.mini})`,
+        width: `calc(100% - ${open ? themeConfig.width.sidebar.full : themeConfig.width.sidebar.mini})`,
         boxShadow: "unset",
-        backgroundColor: colorConfigs.topbar.bg,
-        color: colorConfigs.topbar.color
+        backgroundColor: "#fff",
+        color: "#000"
       }}
     >
       <Toolbar>

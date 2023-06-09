@@ -1,11 +1,11 @@
 import {Box, Collapse, List, ListItemIcon, ListItemText} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {RouteType} from "../../routes/config";
+import {RouteType} from "../../../routes/config";
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import SidebarItem from "./SidebarItem";
 import {useAtomValue} from "jotai";
-import {routeAtom} from "../../atom/routeAtom";
+import {routeAtom} from "../../../atom/routeAtom";
 import {StyledListItemButton} from "./StyledListItemButton";
 import {ListItemButtonContainer} from "./ListItemButtonContainer";
 
@@ -18,6 +18,27 @@ type Props = {
   textVariant?: string;
   unwrap?: boolean;
 };
+
+const StyledListSubtitle = ({content}: { content?: string }) => (
+  <Box sx={{
+    margin: "0 12px",
+    padding: "0.5rem 1rem",
+    marginTop: "8px",
+  }}>
+    <ListItemText
+      sx={{
+        fontSize: "12px",
+        paddingLeft: "2.5rem",
+        textTransform: "uppercase",
+        fontWeight: "bold",
+        color: "#757575",
+      }}
+      disableTypography
+      primary={content}
+    >
+    </ListItemText>
+  </Box>
+)
 
 const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, textVariant, unwrap}: Props) => {
   const [open, setOpen] = useState(unwrap);
@@ -49,25 +70,7 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
   
   return (
     <ListItemButtonContainer bottom={item.stickToBottom} root={root}>
-      {unwrap &&
-        <Box sx={{
-          margin: "0 12px",
-          padding: "0.5rem 1rem",
-          marginTop: "8px",
-        }}>
-          <ListItemText
-          sx={{
-            fontSize: "12px",
-            paddingLeft: "2.5rem",
-            textTransform: "uppercase",
-            fontWeight: "bold",
-            color: "#757575",
-          }}
-          disableTypography
-          primary={item.sidebarProps.text}
-        >
-        </ListItemText>
-        </Box>}
+      {unwrap && <StyledListSubtitle content={item.sidebarProps.text}/>}
       {!unwrap && <StyledListItemButton
         onClick={handleClick}
         selected={appState.includes(item.state) && !open}
@@ -95,8 +98,7 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
         }}>
           {item.child?.map((route, index) => {
             if (!route.sidebarProps) return null;
-            if (route.child) return <SidebarItemCollapse unwrap item={route} key={index} setActiveItem={setActiveItem}
-                                                         activeItem={activeItem} textVariant="subTitle1"/>
+            if (route.child) return (<SidebarItemCollapse unwrap item={route} key={index} setActiveItem={setActiveItem} activeItem={activeItem} textVariant="subTitle1"/>)
             return <SidebarItem item={route} key={index} setActiveItem={setActiveItem} textVariant="subText1"/>
           })}
         </List>

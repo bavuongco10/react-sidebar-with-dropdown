@@ -1,19 +1,20 @@
 import {Drawer as MuiDrawer, List, Stack, Box, Toolbar} from "@mui/material";
-import assets from "../../assets";
-import sizeConfigs from "../../configs/sizeConfigs";
-import appRoutes from "../../routes/appRoutes";
+import assets from "../../../assets";
+import appRoutes from "../../../routes/appRoutes";
 import SidebarItem from "./SidebarItem";
 import SidebarItemCollapse from "./SidebarItemCollapse";
 import {useEffect, useState} from "react";
 import {useAtomValue} from "jotai";
-import {routeAtom} from "../../atom/routeAtom";
-import {sideBarAtom} from "../../atom/sidebarAtom";
+import {routeAtom} from "../../../atom/routeAtom";
+import {sideBarAtom} from "../../../atom/sidebarAtom";
 import {styled, Theme, CSSObject} from '@mui/material/styles';
 import { ListSubheader } from '@mui/material';
+import themeConfig from "../themeConfig";
 
 const openedMixin = (theme: Theme): CSSObject => ({
   borderRight: "0px",
-  width: sizeConfigs.sidebar.width,
+  background: themeConfig.sidebar.bg,
+  width: themeConfig.width.sidebar.full,
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.enteringScreen,
@@ -23,17 +24,18 @@ const openedMixin = (theme: Theme): CSSObject => ({
 
 const closedMixin = (theme: Theme): CSSObject => ({
   borderRight: "0px",
+  background: themeConfig.sidebar.bg,
   transition: theme.transitions.create('width', {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: 'hidden',
-  width: sizeConfigs.sidebar.mini,
+  width: themeConfig.width.sidebar.mini,
 });
 
 const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
   ({theme, open}) => ({
-    width: sizeConfigs.sidebar.width,
+    width: themeConfig.width.sidebar.full,
     flexShrink: 0,
     ...(open && {
       ...openedMixin(theme),
@@ -65,9 +67,9 @@ const Sidebar = () => {
     <Box sx={{
       whiteSpace: 'nowrap',
       boxSizing: "border-box",
-      color: "#102347",
+      color: themeConfig.sidebar.color,
       fontStyle: "normal",
-      fontWeight: "500",
+      fontWeight: "medium",
       fontSize: "16px",
       lineHeight: "20px",
     }}>
@@ -77,7 +79,8 @@ const Sidebar = () => {
         open={openTempoDrawer}
         sx={{
           '& .MuiDrawer-paper': {
-            width: sizeConfigs.sidebar.width,
+            background: themeConfig.sidebar.bg,
+            width: themeConfig.width.sidebar.full,
           }
         }}
       >
