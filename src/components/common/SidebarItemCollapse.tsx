@@ -1,4 +1,4 @@
-import {Collapse, List, ListItemIcon, ListItemText} from "@mui/material";
+import {Box, Collapse, List, ListItemIcon, ListItemText} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {RouteType} from "../../routes/config";
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
@@ -19,7 +19,7 @@ type Props = {
   unwrap?: boolean;
 };
 
-const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, textVariant, unwrap }: Props) => {
+const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, textVariant, unwrap}: Props) => {
   const [open, setOpen] = useState(unwrap);
   const appState = useAtomValue(routeAtom);
   
@@ -36,20 +36,36 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
       handleOpen(true);
     }
   }, [appState, item.state]);
-
+  
   useEffect(() => {
-    if(activeItem !== item.state) {
-      if(root && activeItem.includes(item.state)) return;
-      if(activeItem.includes(item.state)) return;
+    if (activeItem !== item.state) {
+      if (root && activeItem.includes(item.state)) return;
+      if (activeItem.includes(item.state)) return;
       handleOpen(false);
     }
-  },[root, activeItem, item.state])
-
+  }, [root, activeItem, item.state])
+  
   if (!item.sidebarProps) return null;
   
   return (
     <ListItemButtonContainer bottom={item.stickToBottom} root={root}>
-      <StyledListItemButton
+      {unwrap &&
+        <Box sx={{
+          margin: "0 12px",
+          padding: "0.5rem 1rem",
+          marginTop: "8px",
+        }}>
+          <ListItemText
+          sx={{
+            paddingLeft: "2.5rem",
+            fontSize: "14px",
+            fontWeight: "500",
+            color: "#757575",
+          }}
+        >{item.sidebarProps.displayText}
+        </ListItemText>
+        </Box>}
+      {!unwrap && <StyledListItemButton
         onClick={handleClick}
         selected={appState.includes(item.state) && !open}
         active={appState.includes(item.state) && open}
@@ -64,19 +80,21 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
           disableTypography
           primary={item.sidebarProps.displayText}
         />}
-        {!unwrap ? !compact ? (open) ? <ExpandLessOutlinedIcon/> : <ExpandMoreOutlinedIcon/> : null: null}
+        {!compact ? (open) ? <ExpandLessOutlinedIcon/> : <ExpandMoreOutlinedIcon/> : null}
       </StyledListItemButton>
+      }
       {!compact && <Collapse in={open} timeout="auto">
         <List sx={{
           ...(unwrap ? {
             paddingTop: 0,
-            paddingBottom: 0
-          }: {})
+            paddingBottom: 0,
+          } : {})
         }}>
           {item.child?.map((route, index) => {
             if (!route.sidebarProps) return null;
-            if (route.child) return <SidebarItemCollapse unwrap item={route} key={index} setActiveItem={setActiveItem} activeItem={activeItem} textVariant="subTitle1"/>
-            return <SidebarItem item={route} key={index} setActiveItem={setActiveItem} textVariant="subText1" />
+            if (route.child) return <SidebarItemCollapse unwrap item={route} key={index} setActiveItem={setActiveItem}
+                                                         activeItem={activeItem} textVariant="subTitle1"/>
+            return <SidebarItem item={route} key={index} setActiveItem={setActiveItem} textVariant="subText1"/>
           })}
         </List>
       </Collapse>
