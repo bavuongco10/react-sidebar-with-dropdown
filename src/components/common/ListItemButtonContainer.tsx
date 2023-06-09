@@ -8,14 +8,6 @@ export const ListItemButtonContainer = styled("div")(() => {
     margin: "2px 0",
   }
 }, variant({
-  prop: "bottom",
-  variants: {
-    true: {
-      flexDirection: "column-reverse",
-      marginTop: "auto"
-    },
-  }
-}), variant({
   prop: "root",
   variants: {
     true: {
@@ -24,5 +16,13 @@ export const ListItemButtonContainer = styled("div")(() => {
     false: {
       fontSize: "14px",
     }
+  }
+}), variant({
+  prop: "bottom",
+  variants: {
+    true: {
+      flexDirection: "column-reverse",
+      margin: "auto 0 0 0"
+    },
   }
 }));
