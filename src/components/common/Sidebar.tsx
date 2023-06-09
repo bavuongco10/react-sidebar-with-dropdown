@@ -5,10 +5,11 @@ import appRoutes from "../../routes/appRoutes";
 import SidebarItem from "./SidebarItem";
 import SidebarItemCollapse from "./SidebarItemCollapse";
 import {useEffect, useState} from "react";
-import {useAtomValue, useAtom} from "jotai";
+import {useAtomValue} from "jotai";
 import {routeAtom} from "../../atom/routeAtom";
 import {sideBarAtom} from "../../atom/sidebarAtom";
 import {styled, Theme, CSSObject} from '@mui/material/styles';
+import { ListSubheader } from '@mui/material';
 
 const openedMixin = (theme: Theme): CSSObject => ({
   borderRight: "0px",
@@ -78,15 +79,19 @@ const Sidebar = () => {
           flexDirection: "column",
           height: "100%",
         }}>
-          <Toolbar sx={{marginBottom: "20px"}}>
-            <Stack
-              sx={{width: "100%"}}
-              direction="row"
-              justifyContent="center"
-            >
-              <img src={assets.images.logo} style={{height: "44px", background: "#364BB5"}}/>
-            </Stack>
-          </Toolbar>
+          <ListSubheader>
+            <Toolbar sx={{marginBottom: "1rem"}}>
+              <Stack
+                sx={{width: "100%"}}
+                direction="row"
+                justifyContent="center"
+                spacing={2}
+              >
+                <img src={assets.images.logo} style={{height: "44px", background: "rgb(53,121,199)"}}/>
+                {open && <img src={assets.images.text} style={{height: "44px" }}/>}
+              </Stack>
+            </Toolbar>
+          </ListSubheader>
           {appRoutes.map((route, index) => {
               if (!route.sidebarProps) return null;
               if (route.child) return <SidebarItemCollapse item={route} key={route.state} root
@@ -111,15 +116,19 @@ const Sidebar = () => {
           flexDirection: "column",
           height: "100%"
         }}>
-          <Toolbar sx={{marginBottom: "20px"}}>
-            <Stack
-              sx={{width: "100%"}}
-              direction="row"
-              justifyContent="center"
-            >
-              <img src={assets.images.logo} style={{height: "44px", background: "#364BB5"}}/>
-            </Stack>
-          </Toolbar>
+          <ListSubheader>
+            <Toolbar sx={{marginBottom: "1rem"}}>
+              <Stack
+                sx={{width: "100%"}}
+                direction="row"
+                justifyContent="center"
+                spacing={2}
+              >
+                <img src={assets.images.logo} style={{height: "44px", background: "rgb(53,121,199)"}}/>
+                {open && <img src={assets.images.text} style={{height: "44px" }}/>}
+              </Stack>
+            </Toolbar>
+          </ListSubheader>
           {appRoutes.map((route, index) => {
               if (!route.sidebarProps) return null;
               if (route.child) return <SidebarItemCollapse item={route} key={route.state} root
