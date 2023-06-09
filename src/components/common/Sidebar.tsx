@@ -57,6 +57,10 @@ const Sidebar = () => {
     setActiveItem(appState);
   }, [appState]);
   
+  useEffect(() => {
+    setActiveItem("");
+  },[open, openTempoDrawer]);
+  
   return (
     <Box sx={{
       whiteSpace: 'nowrap',
@@ -72,7 +76,9 @@ const Sidebar = () => {
         hideBackdrop
         open={openTempoDrawer}
         sx={{
-          width: sizeConfigs.sidebar.width,
+          '& .MuiDrawer-paper': {
+            width: sizeConfigs.sidebar.width,
+          }
         }}
       >
         <List
