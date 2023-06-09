@@ -10,6 +10,18 @@ import {Typography} from "@mui/material";
 
 const GenericPage = () => <Typography variant="body1">Content: Generic page</Typography>
 
+
+const generateRoute = (root: string, label: string) => {
+  const path = (root + '/' + label).replaceAll(" ", "-").toLowerCase();
+  return {
+  path,
+  element: <GenericPage />,
+  state: path.replaceAll('/',' ').trim().replaceAll(' ', '.'),
+  sidebarProps: {
+    displayText: label
+  },
+}}
+
 const appRoutes: RouteType[] = [
   {
     element: <GenericPage />,
@@ -93,57 +105,34 @@ const appRoutes: RouteType[] = [
         },
       },
       {
-        path: "/reports/applicant",
-        element: <GenericPage />,
-        state: "reports.applicant",
-        sidebarProps: {
-          displayText: "Applicant"
-        },
+        ...generateRoute("/reports", "Applicant"),
         child: [
-          {
-            path: "/reports/applicant/open",
-            element: <GenericPage />,
-            state: "reports.applicant.open",
-            sidebarProps: {
-              displayText: "Open deals"
-            },
-          },
-          {
-            path: "/reports/applicant/closed",
-            element: <GenericPage />,
-            state: "reports.applicant.closed",
-            sidebarProps: {
-              displayText: "Closed deals"
-            },
-          },
+          generateRoute("/reports/applicant", "Open deals"),
+          generateRoute("/reports/applicant", "Closed deals"),
+          generateRoute("/reports/applicant", "Limits"),
+          generateRoute("/reports/applicant", "Expiry Dates"),
+          generateRoute("/reports/applicant", "In Work"),
+          generateRoute("/reports/applicant", "Business Performance"),
+          generateRoute("/reports/applicant", "Commissions & Fees"),
         ]
       },
       {
-        path: "/reports/b",
-        element: <GenericPage />,
-        state: "reports.b",
-        sidebarProps: {
-          displayText: "BBBBB"
-        },
+        ...generateRoute("/reports", "Beneficiary"),
         child: [
-          {
-            path: "/reports/b/1",
-            element: <GenericPage />,
-            state: "reports.b.1",
-            sidebarProps: {
-              displayText: "BBBB1"
-            },
-          },
-          {
-            path: "/reports/b/2",
-            element: <GenericPage />,
-            state: "reports.b.2",
-            sidebarProps: {
-              displayText: "BBBBB2"
-            },
-          },
+          generateRoute("/reports/beneficiary", "In Work"),
+          generateRoute("/reports/beneficiary", "Expiry Dates"),
+          generateRoute("/reports/beneficiary", "Open deals"),
         ]
-      }
+      },
+      {
+        ...generateRoute("/reports", "Issuer"),
+        child: [
+          generateRoute("/reports/issuer", "In Work"),
+          generateRoute("/reports/issuer", "Limits"),
+          generateRoute("/reports/issuer", "Deals Via RIVO"),
+          generateRoute("/reports/issuer", "Commissions & Fees"),
+        ]
+      },
     ]
   },
   {
@@ -164,6 +153,28 @@ const appRoutes: RouteType[] = [
       displayText: "Administrator",
       icon: <SettingsIcon />
     },
+    child: [
+      {
+        ...generateRoute("/administrator", "Application Settings"),
+        child: [
+          generateRoute("/administrator/Application settings", "Branding"),
+          generateRoute("/administrator/Application settings", "Organization Profile"),
+          generateRoute("/administrator/Application settings", "Limits"),
+          generateRoute("/administrator/Application settings", "Currencies"),
+          generateRoute("/administrator/Application settings", "My Customized Fields"),
+        ]
+      },
+      {
+        ...generateRoute("/administrator", "Business Settings"),
+        child: [
+          generateRoute("/administrator/Business Settings", "My Banks"),
+          generateRoute("/administrator/Business Settings", "My Parties"),
+          generateRoute("/administrator/Business Settings", "My Subscription Plan"),
+          generateRoute("/administrator/Business Settings", "Organization Structure"),
+          generateRoute("/administrator/Business Settings", "Audit Logs"),
+        ]
+      },
+    ]
   },
   {
     path: "/profile",
@@ -175,22 +186,10 @@ const appRoutes: RouteType[] = [
       icon: <PersonIcon />
     },
     child: [
-      {
-        path: "/profile/alert",
-        element: <GenericPage />,
-        state: "profile.alert",
-        sidebarProps: {
-          displayText: "Alert"
-        },
-      },
-      {
-        path: "/profile/button",
-        element: <GenericPage />,
-        state: "profile.button",
-        sidebarProps: {
-          displayText: "Button"
-        }
-      }
+      generateRoute("/profile", "My Profile"),
+      generateRoute("/profile", "Notification Settings"),
+      generateRoute("/profile", "About"),
+      generateRoute("/profile", "Logout"),
     ]
   },
 ];

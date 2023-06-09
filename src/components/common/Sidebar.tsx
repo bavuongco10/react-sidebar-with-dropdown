@@ -67,14 +67,24 @@ const Sidebar = () => {
     <div>
       {openTempoDrawer && <MuiDrawer
         anchor="left"
+        hideBackdrop
         open={openTempoDrawer}
+        sx={{
+          whiteSpace: 'nowrap',
+          boxSizing: "border-box",
+          color: "#102347",
+          fontStyle: "normal",
+          fontWeight: "500",
+          fontSize: "16px",
+          lineHeight: "20px",
+        }}
       >
         <List
-          onMouseLeave={() => setOpenTempoDrawer(false)}
+          onMouseLeave={() => !open && setOpenTempoDrawer(false)}
           key={open?.toString()} disablePadding sx={{
           display: "flex",
           flexDirection: "column",
-          height: "100%"
+          height: "100%",
         }}>
           <Toolbar sx={{marginBottom: "20px"}}>
             <Stack
