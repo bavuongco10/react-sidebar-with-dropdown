@@ -1,10 +1,7 @@
-import logo from "./images/typescript-logo-240.png";
-import text from "./images/ts-text.png";
-
 const assets = {
   images: {
-    logo,
-    text,
+    logo: require("./images/typescript-logo-240.png"),
+    text: require("./images/ts-text.png")
   }
 };
 
