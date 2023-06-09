@@ -1,7 +1,7 @@
 import {Box, ListItemIcon, Popper} from "@mui/material";
 import {RouteType} from "../../routes/config";
 import {Link} from "react-router-dom";
-import React, {MutableRefObject, Ref, useEffect, useRef} from "react";
+import React, {useEffect} from "react";
 import {routeAtom} from "../../atom/routeAtom";
 import {useAtomValue} from "jotai";
 import {StyledListItemButton} from "./StyledListItemButton";

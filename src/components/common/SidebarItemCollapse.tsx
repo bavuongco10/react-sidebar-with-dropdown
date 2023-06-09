@@ -58,11 +58,13 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
           <ListItemText
           sx={{
             paddingLeft: "2.5rem",
-            fontSize: "14px",
-            fontWeight: "500",
+            textTransform: "uppercase",
+            fontWeight: "bold",
             color: "#757575",
           }}
-        >{item.sidebarProps.displayText}
+          disableTypography
+          primary={item.sidebarProps.displayText}
+        >
         </ListItemText>
         </Box>}
       {!unwrap && <StyledListItemButton

@@ -21,5 +21,8 @@ export const ListItemButtonContainer = styled("div")(() => {
     true: {
       margin: "0 0 1rem 0",
     },
+    false: {
+      fontSize: "14px",
+    }
   }
 }));

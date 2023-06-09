@@ -33,14 +33,7 @@ const closedMixin = (theme: Theme): CSSObject => ({
 const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})(
   ({theme, open}) => ({
     width: sizeConfigs.sidebar.width,
-    whiteSpace: 'nowrap',
     flexShrink: 0,
-    boxSizing: "border-box",
-    color: "#102347",
-    fontStyle: "normal",
-    fontWeight: "500",
-    fontSize: "16px",
-    lineHeight: "20px",
     ...(open && {
       ...openedMixin(theme),
       '& .MuiDrawer-paper': openedMixin(theme),
@@ -64,20 +57,19 @@ const Sidebar = () => {
   }, [appState]);
   
   return (
-    <div>
+    <Box sx={{
+      whiteSpace: 'nowrap',
+      boxSizing: "border-box",
+      color: "#102347",
+      fontStyle: "normal",
+      fontWeight: "500",
+      fontSize: "16px",
+      lineHeight: "20px",
+    }}>
       {openTempoDrawer && <MuiDrawer
         anchor="left"
         hideBackdrop
         open={openTempoDrawer}
-        sx={{
-          whiteSpace: 'nowrap',
-          boxSizing: "border-box",
-          color: "#102347",
-          fontStyle: "normal",
-          fontWeight: "500",
-          fontSize: "16px",
-          lineHeight: "20px",
-        }}
       >
         <List
           onMouseLeave={() => !open && setOpenTempoDrawer(false)}
@@ -141,7 +133,7 @@ const Sidebar = () => {
         </List>
       </Drawer>
       }
-    </div>
+    </Box>
   );
 };
 
