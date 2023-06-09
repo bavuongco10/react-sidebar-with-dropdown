@@ -64,7 +64,7 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
             color: "#757575",
           }}
           disableTypography
-          primary={item.sidebarProps.displayText}
+          primary={item.sidebarProps.text}
         >
         </ListItemText>
         </Box>}
@@ -81,7 +81,7 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
         </ListItemIcon>
         {!compact && <ListItemText
           disableTypography
-          primary={item.sidebarProps.displayText}
+          primary={item.sidebarProps.text}
         />}
         {!compact ? (open) ? <ExpandLessOutlinedIcon/> : <ExpandMoreOutlinedIcon/> : null}
       </StyledListItemButton>

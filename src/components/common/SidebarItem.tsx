@@ -75,7 +75,8 @@ const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact, te
         <ListItemIcon>
           {item.sidebarProps.icon && item.sidebarProps.icon}
         </ListItemIcon>
-        {!compact && item.sidebarProps.displayText}
+        {!compact && item.sidebarProps.text}
+        {!compact && item.sidebarProps.content}
       </StyledListItemButton>
       {item.type === "popup" && popper}
     </ListItemButtonContainer>

@@ -9,7 +9,8 @@ export type RouteType = {
   type?: string,
   child?: RouteType[],
   sidebarProps?: {
-    displayText: string,
+    text?: string,
     icon?: ReactNode;
+    content?: ReactNode;
   };
 };

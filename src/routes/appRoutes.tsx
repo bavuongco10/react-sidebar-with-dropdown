@@ -1,12 +1,13 @@
-import { RouteType } from "./config";
+import {RouteType} from "./config";
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import HomeIcon from '@mui/icons-material/Home';
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 import SettingsIcon from '@mui/icons-material/Settings';
 import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/LogoutOutlined';
 import {Outlet} from "react-router-dom";
-import {Typography} from "@mui/material";
+import {Stack, Typography} from "@mui/material";
 
 const GenericPage = () => <Typography variant="body1">Content: Generic page</Typography>
 
@@ -14,17 +15,18 @@ const GenericPage = () => <Typography variant="body1">Content: Generic page</Typ
 const generateRoute = (root: string, label: string) => {
   const path = (root + '/' + label).replaceAll(" ", "-").toLowerCase();
   return {
-  path,
-  element: <GenericPage />,
-  state: path.replaceAll('/',' ').trim().replaceAll(' ', '.'),
-  sidebarProps: {
-    displayText: label
-  },
-}}
+    path,
+    element: <GenericPage/>,
+    state: path.replaceAll('/', ' ').trim().replaceAll(' ', '.'),
+    sidebarProps: {
+      text: label
+    },
+  }
+}
 
 const appRoutes: RouteType[] = [
   {
-    element: <GenericPage />,
+    element: <GenericPage/>,
     state: "home"
   },
   {
@@ -32,76 +34,76 @@ const appRoutes: RouteType[] = [
     element: <GenericPage/>,
     state: "home",
     sidebarProps: {
-      displayText: "Home",
-      icon: <HomeIcon />
+      text: "Home",
+      icon: <HomeIcon/>
     }
   },
   {
     path: "/new",
-    element: <Outlet />,
+    element: <Outlet/>,
     state: "new",
     sidebarProps: {
-      displayText: "New",
-      icon: <AddCircleOutlinedIcon />
+      text: "New",
+      icon: <AddCircleOutlinedIcon/>
     },
     child: [
       {
         path: "/new/exportlc",
-        element: <GenericPage />,
+        element: <GenericPage/>,
         state: "new.exportlc",
         sidebarProps: {
-          displayText: "Export LC"
+          text: "Export LC"
         },
       },
       {
         path: "/new/importlc",
-        element: <GenericPage />,
+        element: <GenericPage/>,
         state: "new.imporlc",
         sidebarProps: {
-          displayText: "Import LC"
+          text: "Import LC"
         },
       },
       {
         path: "/new/outgoingguarantee",
-        element: <GenericPage />,
+        element: <GenericPage/>,
         state: "new.outgoingguarantee",
         sidebarProps: {
-          displayText: "Outgoing Guarantee"
+          text: "Outgoing Guarantee"
         }
       },
       {
         path: "/new/incomingguarantee",
-        element: <GenericPage />,
+        element: <GenericPage/>,
         state: "new.incomingguarantee",
         sidebarProps: {
-          displayText: "Incoming Guarantee"
+          text: "Incoming Guarantee"
         }
       },
       {
         path: "/new/standbylc",
-        element: <GenericPage />,
+        element: <GenericPage/>,
         state: "new.standbylc",
         sidebarProps: {
-          displayText: "Standby LC"
+          text: "Standby LC"
         }
       }
     ]
   },
   {
     path: "/reports",
-    element: <Outlet />,
+    element: <Outlet/>,
     state: "reports",
     sidebarProps: {
-      displayText: "Reports",
-      icon: <BarChartOutlinedIcon />
+      text: "Reports",
+      icon: <BarChartOutlinedIcon/>
     },
     child: [
       {
         path: "/reports/usage",
-        element: <GenericPage />,
+        element: <GenericPage/>,
         state: "reports.usage",
         sidebarProps: {
-          displayText: "Usage Metrics Report"
+          text: "Usage Metrics Report"
         },
       },
       {
@@ -137,21 +139,21 @@ const appRoutes: RouteType[] = [
   },
   {
     path: "/noticiations",
-    element: <GenericPage />,
+    element: <GenericPage/>,
     state: "notifications",
     sidebarProps: {
-      displayText: "Notifications",
-      icon: <NotificationsActiveIcon />
+      text: "Notifications",
+      icon: <NotificationsActiveIcon/>
     },
     type: "popup"
   },
   {
     path: "/administrator",
-    element: <GenericPage />,
+    element: <GenericPage/>,
     state: "administrator",
     sidebarProps: {
-      displayText: "Administrator",
-      icon: <SettingsIcon />
+      text: "Administrator",
+      icon: <SettingsIcon/>
     },
     child: [
       {
@@ -178,18 +180,39 @@ const appRoutes: RouteType[] = [
   },
   {
     path: "/profile",
-    element: <Outlet />,
+    element: <Outlet/>,
     state: "profile",
     stickToBottom: true,
     sidebarProps: {
-      displayText: "Releaser",
-      icon: <PersonIcon />
+      text: "Releaser",
+      icon: <PersonIcon/>
     },
     child: [
       generateRoute("/profile", "My Profile"),
-      generateRoute("/profile", "Notification Settings"),
-      generateRoute("/profile", "About"),
-      generateRoute("/profile", "Logout"),
+      {
+        ...generateRoute("/profile", "Preferences"),
+        child: [
+          generateRoute("/profile/Preferences", "Notification Settings"),
+          {
+            ...generateRoute("/profile/Preferences", "About"),
+            sidebarProps: {
+              content: (<Stack
+                sx={{width: "100%"}}
+                direction="row" justifyContent="space-between">
+                <span>About</span>
+                <span>V2.5.0</span>
+              </Stack>)
+            },
+          },
+          {
+            ...generateRoute("/profile/Preferences", "Logout"),
+            sidebarProps: {
+              text: "Logout",
+              icon: <LogoutIcon/>
+            },
+          },
+        ]
+      }
     ]
   },
 ];

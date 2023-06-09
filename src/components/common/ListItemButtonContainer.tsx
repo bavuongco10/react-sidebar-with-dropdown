@@ -22,7 +22,7 @@ export const ListItemButtonContainer = styled("div")(() => {
   variants: {
     true: {
       flexDirection: "column-reverse",
-      margin: "auto 0 0 0"
+      margin: "auto 0 1rem 0"
     },
   }
 }));
