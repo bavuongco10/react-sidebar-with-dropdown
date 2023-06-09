@@ -55,8 +55,8 @@ export const StyledListItemButton = styled(ListItemButton)((props) => {
     subTitle1: {
       fontSize: "14px",
       fontWeight: "500",
-      color: "#90949C"
+      color: "#90949C",
+      marginTop: "8px"
   
-}
-  }
-}));
+}}})
+);

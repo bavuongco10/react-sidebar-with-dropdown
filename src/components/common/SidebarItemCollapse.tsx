@@ -1,4 +1,4 @@
-import {Box, Collapse, List, ListItemButton, ListItemIcon, ListItemText, Popper} from "@mui/material";
+import {Collapse, List, ListItemIcon, ListItemText} from "@mui/material";
 import React, {useEffect, useState} from "react";
 import {RouteType} from "../../routes/config";
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
@@ -8,7 +8,6 @@ import {useAtomValue} from "jotai";
 import {routeAtom} from "../../atom/routeAtom";
 import {StyledListItemButton} from "./StyledListItemButton";
 import {ListItemButtonContainer} from "./ListItemButtonContainer";
-import ListItem from '@mui/material/ListItem';
 
 type Props = {
   item: RouteType;
@@ -17,20 +16,24 @@ type Props = {
   activeItem: string;
   compact?: boolean;
   textVariant?: string;
+  unwrap?: boolean;
 };
 
-const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, textVariant }: Props) => {
-  const [open, setOpen] = useState(false);
+const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, textVariant, unwrap }: Props) => {
+  const [open, setOpen] = useState(unwrap);
   const appState = useAtomValue(routeAtom);
-
+  
+  const handleOpen = (value: boolean) => !unwrap && setOpen(value);
+  
   const handleClick = () => {
-    setOpen(!open);
+    handleOpen(!open);
     setActiveItem(item.state);
   }
   
+  
   useEffect(() => {
     if (appState.includes(item.state)) {
-      setOpen(true);
+      handleOpen(true);
     }
   }, [appState, item.state]);
 
@@ -38,7 +41,7 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
     if(activeItem !== item.state) {
       if(root && activeItem.includes(item.state)) return;
       if(activeItem.includes(item.state)) return;
-      setOpen(false);
+      handleOpen(false);
     }
   },[root, activeItem, item.state])
 
@@ -61,13 +64,18 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
           disableTypography
           primary={item.sidebarProps.displayText}
         />}
-        {!compact ? (open) ? <ExpandLessOutlinedIcon/> : <ExpandMoreOutlinedIcon/> : null}
+        {!unwrap ? !compact ? (open) ? <ExpandLessOutlinedIcon/> : <ExpandMoreOutlinedIcon/> : null: null}
       </StyledListItemButton>
       {!compact && <Collapse in={open} timeout="auto">
-        <List>
+        <List sx={{
+          ...(unwrap ? {
+            paddingTop: 0,
+            paddingBottom: 0
+          }: {})
+        }}>
           {item.child?.map((route, index) => {
             if (!route.sidebarProps) return null;
-            if (route.child) return <SidebarItemCollapse item={route} key={index} setActiveItem={setActiveItem} activeItem={activeItem} textVariant="subTitle1"/>
+            if (route.child) return <SidebarItemCollapse unwrap item={route} key={index} setActiveItem={setActiveItem} activeItem={activeItem} textVariant="subTitle1"/>
             return <SidebarItem item={route} key={index} setActiveItem={setActiveItem} textVariant="subText1" />
           })}
         </List>
