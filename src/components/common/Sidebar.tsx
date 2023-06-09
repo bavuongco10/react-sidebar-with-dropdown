@@ -71,6 +71,9 @@ const Sidebar = () => {
         anchor="left"
         hideBackdrop
         open={openTempoDrawer}
+        sx={{
+          width: sizeConfigs.sidebar.width,
+        }}
       >
         <List
           onMouseLeave={() => !open && setOpenTempoDrawer(false)}
