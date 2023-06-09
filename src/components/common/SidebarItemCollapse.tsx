@@ -57,6 +57,7 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
         }}>
           <ListItemText
           sx={{
+            fontSize: "12px",
             paddingLeft: "2.5rem",
             textTransform: "uppercase",
             fontWeight: "bold",
