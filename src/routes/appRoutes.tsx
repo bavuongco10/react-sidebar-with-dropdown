@@ -138,7 +138,6 @@ const appRoutes: RouteType[] = [
     ]
   },
   {
-    path: "/noticiations",
     element: <GenericPage/>,
     state: "notifications",
     sidebarProps: {
