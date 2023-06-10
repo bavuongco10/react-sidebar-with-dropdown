@@ -1,5 +1,5 @@
 import {Box, ListItemIcon, Popper} from "@mui/material";
-import {RouteType} from "../../../routes/config";
+import {RouteType} from "../../../routes/types";
 import {Link} from "react-router-dom";
 import React, {useEffect} from "react";
 import {routeAtom} from "../../../atom/routeAtom";
@@ -24,7 +24,6 @@ const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact, te
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setActiveItem(item.state);
     if (item.type !== "popup") return;
-    setRouteState(item.state);
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
   
@@ -33,7 +32,6 @@ const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact, te
   useEffect(() => {
     if(activeItem !== item.state) {
       setAnchorEl(null)
-      if(activeItem) setRouteState(activeItem);
     };
   },[activeItem, item.state])
   

@@ -1,4 +1,4 @@
-import {RouteType} from "./config";
+import {RouteType} from "./types";
 import AddCircleOutlinedIcon from '@mui/icons-material/AddCircleOutlined';
 import HomeIcon from '@mui/icons-material/Home';
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
@@ -8,9 +8,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/LogoutOutlined';
 import {Outlet} from "react-router-dom";
 import {Stack, Typography} from "@mui/material";
+import {flattenRoutes} from "./flattenRoutes";
 
 const GenericPage = () => <Typography variant="body1">Content: Generic page</Typography>
-
 
 const generateRoute = (root: string, label: string) => {
   const path = (root + '/' + label).replaceAll(" ", "-").toLowerCase();
@@ -24,7 +24,7 @@ const generateRoute = (root: string, label: string) => {
   }
 }
 
-const appRoutes: RouteType[] = [
+export const appRoutes: Array<RouteType> = [
   {
     element: <GenericPage/>,
     state: "home"
@@ -216,4 +216,5 @@ const appRoutes: RouteType[] = [
   },
 ];
 
-export default appRoutes;
+export const flattenedRoutes = flattenRoutes(appRoutes);
+console.log(flattenedRoutes)

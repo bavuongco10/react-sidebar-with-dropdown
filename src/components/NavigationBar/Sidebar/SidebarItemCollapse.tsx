@@ -1,6 +1,6 @@
 import {Box, Collapse, List, ListItemIcon, ListItemText} from "@mui/material";
 import React, {useEffect, useState} from "react";
-import {RouteType} from "../../../routes/config";
+import {RouteType} from "../../../routes/types";
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import SidebarItem from "./SidebarItem";

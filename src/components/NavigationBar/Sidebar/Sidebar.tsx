@@ -1,6 +1,6 @@
 import {Drawer as MuiDrawer, List, Stack, Box, Toolbar} from "@mui/material";
 import assets from "../../../assets";
-import appRoutes from "../../../routes/appRoutes";
+import {appRoutes} from "../../../routes/appRoutes";
 import SidebarItem from "./SidebarItem";
 import SidebarItemCollapse from "./SidebarItemCollapse";
 import {useEffect, useState} from "react";
