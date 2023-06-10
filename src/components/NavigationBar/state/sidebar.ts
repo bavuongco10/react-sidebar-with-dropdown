@@ -11,4 +11,4 @@ export function atomWithToggle(
   return anAtom
 }
 
-export const sideBarAtom = atomWithToggle(true);
+export const sidebarAtom = atomWithToggle(true);

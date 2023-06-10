@@ -8,7 +8,6 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/LogoutOutlined';
 import {Outlet} from "react-router-dom";
 import {Stack, Typography} from "@mui/material";
-import {flattenRoutes} from "./flattenRoutes";
 
 const GenericPage = () => <Typography variant="body1">Content: Generic page</Typography>
 
@@ -216,5 +215,23 @@ export const appRoutes: Array<RouteType> = [
   },
 ];
 
+type FlattenedRoutes = Record<string, RouteType>;
+export function flattenRoutes(routes: RouteType[]): FlattenedRoutes {
+  const flattenedRoutes: FlattenedRoutes = {};
+  
+  function processRoute(route: RouteType) {
+    if (route.path) {
+      flattenedRoutes[route.path] = route;
+    }
+    
+    if (route.child) {
+      route.child.forEach(processRoute);
+    }
+  }
+  
+  routes.forEach(processRoute);
+  
+  return flattenedRoutes;
+}
+
 export const flattenedRoutes = flattenRoutes(appRoutes);
-console.log(flattenedRoutes)

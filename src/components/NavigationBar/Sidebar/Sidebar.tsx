@@ -4,12 +4,13 @@ import {appRoutes} from "../../../routes/appRoutes";
 import SidebarItem from "./SidebarItem";
 import SidebarItemCollapse from "./SidebarItemCollapse";
 import {useEffect, useState} from "react";
-import {useAtomValue} from "jotai";
-import {routeAtom} from "../../../atom/routeAtom";
-import {sideBarAtom} from "../../../atom/sidebarAtom";
+import {useAtomValue, useSetAtom} from "jotai";
+import {useCurrentRoute} from "../state/useCurrentRoute";
 import {styled, Theme, CSSObject} from '@mui/material/styles';
 import { ListSubheader } from '@mui/material';
 import themeConfig from "../themeConfig";
+import {sidebarAtom} from "../state/sidebar";
+import {sidebarItemAtom} from "../state/sidebarItem";
 
 const openedMixin = (theme: Theme): CSSObject => ({
   borderRight: "0px",
@@ -48,20 +49,62 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
   }),
 );
 
+
+
+interface SidebarListProps {
+  onMouseLeave?: () => void;
+  onMouseEnter?: () => void;
+}
+
+const SidebarList = ({ onMouseLeave, onMouseEnter }: SidebarListProps) => {
+  const sidebarOpen = useAtomValue(sidebarAtom);
+  return (
+    <List
+      onMouseLeave={onMouseLeave}
+      onMouseEnter={onMouseEnter}
+      key={sidebarOpen?.toString()} disablePadding sx={{
+      display: "flex",
+      flexDirection: "column",
+      minHeight: "100%",
+      overflowY: "auto"
+    }}>
+      <ListSubheader>
+        <Toolbar sx={{marginBottom: "1rem"}}>
+          <Stack
+            sx={{width: "100%"}}
+            direction="row"
+            justifyContent="center"
+            spacing={2}
+          >
+            <img src={assets.images.logo} style={{height: "44px", background: "rgb(53,121,199)"}}/>
+            {sidebarOpen && <img src={assets.images.text} style={{height: "44px" }}/>}
+          </Stack>
+        </Toolbar>
+      </ListSubheader>
+      {appRoutes.map((route, index) => {
+          if (!route.sidebarProps) return null;
+          if (route.child) return <SidebarItemCollapse item={route} key={route.state} root/>
+          return <SidebarItem key={route.state} item={route} root/>
+        }
+      )}
+    </List>
+  )
+}
+
 const Sidebar = () => {
-  const routeState = useAtomValue(routeAtom);
-  const open = useAtomValue(sideBarAtom);
-  const [activeItem, setActiveItem] = useState("");
-  
+  const currentRoute = useCurrentRoute();
+  const routeState = currentRoute?.state;
+  const sidebarOpen = useAtomValue(sidebarAtom);
+  const setActiveSidebarItem = useSetAtom(sidebarItemAtom);
   const [openTempoDrawer, setOpenTempoDrawer] = useState(false);
   
   useEffect(() => {
-    setActiveItem(routeState);
+    setActiveSidebarItem(routeState || "");
   }, [routeState]);
   
   useEffect(() => {
-    setActiveItem("");
-  },[open, openTempoDrawer]);
+    setActiveSidebarItem("");
+  },[sidebarOpen, openTempoDrawer]);
   
   return (
     <Box sx={{
@@ -84,76 +127,14 @@ const Sidebar = () => {
           }
         }}
       >
-        <List
-          onMouseLeave={() => !open && setOpenTempoDrawer(false)}
-          key={open?.toString()} disablePadding sx={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100%",
-          overflowY: "auto"
-        }}>
-          <ListSubheader>
-            <Toolbar sx={{marginBottom: "1rem"}}>
-              <Stack
-                sx={{width: "100%"}}
-                direction="row"
-                justifyContent="center"
-                spacing={2}
-              >
-                <img src={assets.images.logo} style={{height: "44px", background: "rgb(53,121,199)"}}/>
-                {open && <img src={assets.images.text} style={{height: "44px" }}/>}
-              </Stack>
-            </Toolbar>
-          </ListSubheader>
-          {appRoutes.map((route, index) => {
-              if (!route.sidebarProps) return null;
-              if (route.child) return <SidebarItemCollapse item={route} key={route.state} root
-                                                           setActiveItem={setActiveItem}
-                                                           activeItem={activeItem}/>
-              return <SidebarItem key={route.state} item={route} root setActiveItem={setActiveItem}
-                                  activeItem={activeItem}
-              />
-            }
-          )}
-        </List>
+        <SidebarList onMouseLeave={() => !sidebarOpen && setOpenTempoDrawer(false)} />
       </MuiDrawer>}
       {openTempoDrawer && <Box sx={{width: "80px", height: "100vh"}}/>}
       {!openTempoDrawer && <Drawer
         variant="permanent"
-        open={open}
-        onMouseEnter={() => !open && setOpenTempoDrawer(true)}
+        open={sidebarOpen}
       >
-        <List
-          key={open?.toString()} disablePadding sx={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100%",
-          overflowY: "auto"
-        }}>
-          <ListSubheader>
-            <Toolbar sx={{marginBottom: "1rem"}}>
-              <Stack
-                sx={{width: "100%"}}
-                direction="row"
-                justifyContent="center"
-                spacing={2}
-              >
-                <img src={assets.images.logo} style={{height: "44px", background: "rgb(53,121,199)"}}/>
-                {open && <img src={assets.images.text} style={{height: "44px" }}/>}
-              </Stack>
-            </Toolbar>
-          </ListSubheader>
-          {appRoutes.map((route, index) => {
-              if (!route.sidebarProps) return null;
-              if (route.child) return <SidebarItemCollapse item={route} key={route.state} root
-                                                           setActiveItem={setActiveItem}
-                                                           activeItem={activeItem} compact={!open}/>
-              return <SidebarItem key={route.state} item={route} root setActiveItem={setActiveItem}
-                                  activeItem={activeItem}
-                                  compact={!open}/>
-            }
-          )}
-        </List>
+      <SidebarList onMouseEnter={() => !sidebarOpen && setOpenTempoDrawer(true)}/>
       </Drawer>
       }
     </Box>

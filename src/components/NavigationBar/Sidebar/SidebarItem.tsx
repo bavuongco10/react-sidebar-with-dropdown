@@ -2,27 +2,30 @@ import {Box, ListItemIcon, Popper} from "@mui/material";
 import {RouteType} from "../../../routes/types";
 import {Link} from "react-router-dom";
 import React, {useEffect} from "react";
-import {routeAtom} from "../../../atom/routeAtom";
+import {useCurrentRoute} from "../state/useCurrentRoute";
 import {useAtom} from "jotai";
 import {StyledListItemButton} from "./StyledListItemButton";
 import {ListItemButtonContainer} from "./ListItemButtonContainer";
 import themeConfig from "../themeConfig";
+import {sidebarItemAtom} from "../state/sidebarItem";
+import {useAtomValue} from "jotai";
+import {sidebarAtom} from "../state/sidebar";
 
 type Props = {
   item: RouteType;
   root?: boolean;
-  setActiveItem: (value: string) => void;
-  activeItem?: string;
-  compact?: boolean;
   textVariant?: string;
 };
 
-const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact, textVariant }: Props) => {
-  const [routeState, setRouteState] = useAtom(routeAtom);
+const SidebarItem = ({ item, root = false, textVariant }: Props) => {
+  const currentRoute = useCurrentRoute();
+  const routeState = currentRoute?.state;
+  const sidebarOpen = useAtomValue(sidebarAtom);
+  const [activeSidebarItem, setActiveSidebarItem] = useAtom(sidebarItemAtom);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setActiveItem(item.state);
+    setActiveSidebarItem(item.state);
     if (item.type !== "popup") return;
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
@@ -30,10 +33,10 @@ const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact, te
   const open = Boolean(anchorEl);
   
   useEffect(() => {
-    if(activeItem !== item.state) {
+    if(activeSidebarItem !== item.state) {
       setAnchorEl(null)
     };
-  },[activeItem, item.state])
+  },[activeSidebarItem, item.state])
   
   const popper = (
     <Popper open={open} anchorEl={anchorEl} placement="right-start" sx={{
@@ -77,8 +80,8 @@ const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact, te
         <ListItemIcon>
           {item.sidebarProps.icon && item.sidebarProps.icon}
         </ListItemIcon>
-        {!compact && item.sidebarProps.text}
-        {!compact && item.sidebarProps.content}
+        {sidebarOpen && item.sidebarProps.text}
+        {sidebarOpen && item.sidebarProps.content}
       </StyledListItemButton>
       {item.type === "popup" && popper}
     </ListItemButtonContainer>

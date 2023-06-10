@@ -4,17 +4,17 @@ import {RouteType} from "../../../routes/types";
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
 import SidebarItem from "./SidebarItem";
-import {useAtomValue} from "jotai";
-import {routeAtom} from "../../../atom/routeAtom";
+import {useAtom} from "jotai";
+import {useCurrentRoute} from "../state/useCurrentRoute";
 import {StyledListItemButton} from "./StyledListItemButton";
 import {ListItemButtonContainer} from "./ListItemButtonContainer";
+import {sidebarItemAtom} from "../state/sidebarItem";
+import {useAtomValue} from "jotai";
+import {sidebarAtom} from "../state/sidebar";
 
 type Props = {
   item: RouteType;
   root?: boolean;
-  setActiveItem: (value: string) => void;
-  activeItem: string;
-  compact?: boolean;
   textVariant?: string;
   unwrap?: boolean;
 };
@@ -40,31 +40,34 @@ const StyledListSubtitle = ({content}: { content?: string }) => (
   </Box>
 )
 
-const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, textVariant, unwrap}: Props) => {
+const SidebarItemCollapse = ({item, root, textVariant, unwrap}: Props) => {
   const [open, setOpen] = useState(unwrap);
-  const routeState = useAtomValue(routeAtom);
+  const [activeSidebarItem, setActiveSidebarItem] = useAtom(sidebarItemAtom);
+  const currentRoute = useCurrentRoute();
+  const routeState = currentRoute?.state;
+  const sidebarOpen = useAtomValue(sidebarAtom);
   
   const handleOpen = (value: boolean) => !unwrap && setOpen(value);
   
   const handleClick = () => {
     handleOpen(!open);
-    setActiveItem(item.state);
+    setActiveSidebarItem(item.state);
   }
   
   
   useEffect(() => {
-    if (routeState.includes(item.state)) {
+    if (routeState?.includes(item.state)) {
       handleOpen(true);
     }
   }, [routeState, item.state]);
   
   useEffect(() => {
-    if (activeItem !== item.state) {
-      if (root && activeItem.includes(item.state)) return;
-      if (activeItem.includes(item.state)) return;
+    if (activeSidebarItem !== item.state) {
+      if (root && activeSidebarItem.includes(item.state)) return;
+      if (activeSidebarItem.includes(item.state)) return;
       handleOpen(false);
     }
-  }, [root, activeItem, item.state])
+  }, [root, activeSidebarItem, item.state])
   
   if (!item.sidebarProps) return null;
   
@@ -73,8 +76,8 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
       {unwrap && <StyledListSubtitle content={item.sidebarProps.text}/>}
       {!unwrap && <StyledListItemButton
         onClick={handleClick}
-        selected={routeState.includes(item.state) && !open}
-        active={routeState.includes(item.state) && open}
+        selected={routeState?.includes(item.state) && !open}
+        active={routeState?.includes(item.state) && open}
         variant={root ? "primary" : "secondary"}
         collapsable
         textVariant={textVariant}
@@ -82,14 +85,14 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
         <ListItemIcon>
           {item.sidebarProps.icon && item.sidebarProps.icon}
         </ListItemIcon>
-        {!compact && <ListItemText
+        {sidebarOpen && <ListItemText
           disableTypography
           primary={item.sidebarProps.text}
         />}
-        {!compact ? (open) ? <ExpandLessOutlinedIcon/> : <ExpandMoreOutlinedIcon/> : null}
+        {sidebarOpen ? (open) ? <ExpandLessOutlinedIcon/> : <ExpandMoreOutlinedIcon/> : null}
       </StyledListItemButton>
       }
-      {!compact && <Collapse in={open} timeout="auto">
+      {sidebarOpen && <Collapse in={open} timeout="auto">
         <List sx={{
           ...(unwrap ? {
             paddingTop: 0,
@@ -98,8 +101,8 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
         }}>
           {item.child?.map((route, index) => {
             if (!route.sidebarProps) return null;
-            if (route.child) return (<SidebarItemCollapse unwrap item={route} key={index} setActiveItem={setActiveItem} activeItem={activeItem} textVariant="subTitle1"/>)
-            return <SidebarItem item={route} key={index} setActiveItem={setActiveItem} textVariant="subText1"/>
+            if (route.child) return (<SidebarItemCollapse unwrap item={route} key={index}  textVariant="subTitle1"/>)
+            return <SidebarItem item={route} key={index}  textVariant="subText1"/>
           })}
         </List>
       </Collapse>
