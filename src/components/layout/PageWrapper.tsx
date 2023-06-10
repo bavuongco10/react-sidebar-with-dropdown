@@ -9,13 +9,10 @@ type Props = {
 };
 
 const PageWrapper = ({ state, children }: Props) => {
-  const setRoute = useSetAtom(routeAtom)
-  
+  const setRouteState = useSetAtom(routeAtom)
   useEffect(() => {
-    if (state) {
-      setRoute(state);
-    }
-  }, [state, setRoute]);
+    if (state) setRouteState(state);
+  }, [state, setRouteState]);
 
   return (
     <>

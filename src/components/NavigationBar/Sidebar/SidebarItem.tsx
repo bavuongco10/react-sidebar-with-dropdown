@@ -3,7 +3,7 @@ import {RouteType} from "../../../routes/config";
 import {Link} from "react-router-dom";
 import React, {useEffect} from "react";
 import {routeAtom} from "../../../atom/routeAtom";
-import {useAtomValue} from "jotai";
+import {useAtom} from "jotai";
 import {StyledListItemButton} from "./StyledListItemButton";
 import {ListItemButtonContainer} from "./ListItemButtonContainer";
 import themeConfig from "../themeConfig";
@@ -18,11 +18,13 @@ type Props = {
 };
 
 const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact, textVariant }: Props) => {
-  const appState = useAtomValue(routeAtom);
+  const [routeState, setRouteState] = useAtom(routeAtom);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setActiveItem(item.state);
     if (item.type !== "popup") return;
+    setRouteState(item.state);
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
   
@@ -31,6 +33,7 @@ const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact, te
   useEffect(() => {
     if(activeItem !== item.state) {
       setAnchorEl(null)
+      if(activeItem) setRouteState(activeItem);
     };
   },[activeItem, item.state])
   
@@ -69,7 +72,7 @@ const SidebarItem = ({item, root = false, setActiveItem, activeItem, compact, te
         {...item.path ? { component: Link } : {}}
         to={item.path}
         onClick={handleClick}
-        selected={appState === item.state}
+        selected={routeState === item.state}
         variant={root ? "primary" : "secondary"}
         textVariant={textVariant}
       >

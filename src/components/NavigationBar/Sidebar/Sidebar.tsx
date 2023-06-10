@@ -49,15 +49,15 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 );
 
 const Sidebar = () => {
-  const appState = useAtomValue(routeAtom);
+  const routeState = useAtomValue(routeAtom);
   const open = useAtomValue(sideBarAtom);
   const [activeItem, setActiveItem] = useState("");
   
   const [openTempoDrawer, setOpenTempoDrawer] = useState(false);
   
   useEffect(() => {
-    setActiveItem(appState);
-  }, [appState]);
+    setActiveItem(routeState);
+  }, [routeState]);
   
   useEffect(() => {
     setActiveItem("");

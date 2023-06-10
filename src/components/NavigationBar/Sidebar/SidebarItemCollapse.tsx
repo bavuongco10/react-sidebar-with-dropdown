@@ -42,7 +42,7 @@ const StyledListSubtitle = ({content}: { content?: string }) => (
 
 const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, textVariant, unwrap}: Props) => {
   const [open, setOpen] = useState(unwrap);
-  const appState = useAtomValue(routeAtom);
+  const routeState = useAtomValue(routeAtom);
   
   const handleOpen = (value: boolean) => !unwrap && setOpen(value);
   
@@ -53,10 +53,10 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
   
   
   useEffect(() => {
-    if (appState.includes(item.state)) {
+    if (routeState.includes(item.state)) {
       handleOpen(true);
     }
-  }, [appState, item.state]);
+  }, [routeState, item.state]);
   
   useEffect(() => {
     if (activeItem !== item.state) {
@@ -73,8 +73,8 @@ const SidebarItemCollapse = ({item, root, setActiveItem, activeItem, compact, te
       {unwrap && <StyledListSubtitle content={item.sidebarProps.text}/>}
       {!unwrap && <StyledListItemButton
         onClick={handleClick}
-        selected={appState.includes(item.state) && !open}
-        active={appState.includes(item.state) && open}
+        selected={routeState.includes(item.state) && !open}
+        active={routeState.includes(item.state) && open}
         variant={root ? "primary" : "secondary"}
         collapsable
         textVariant={textVariant}
