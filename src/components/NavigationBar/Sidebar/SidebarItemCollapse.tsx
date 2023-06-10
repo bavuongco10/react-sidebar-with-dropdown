@@ -54,30 +54,29 @@ const SidebarItemCollapse = ({item, root, textVariant, unwrap}: Props) => {
     setActiveSidebarItem(item.state);
   }
   
-  
   useEffect(() => {
-    if (routeState?.includes(item.state)) {
+    if (routeState?.startsWith(item.state)) {
       handleOpen(true);
     }
   }, [routeState, item.state]);
   
   useEffect(() => {
     if (activeSidebarItem !== item.state) {
-      if (root && activeSidebarItem.includes(item.state)) return;
-      if (activeSidebarItem.includes(item.state)) return;
+      if (root && activeSidebarItem.startsWith(item.state)) return;
+      if (activeSidebarItem.startsWith(item.state)) return;
       handleOpen(false);
     }
   }, [root, activeSidebarItem, item.state])
   
   if (!item.sidebarProps) return null;
-  
+  console.log(routeState, item.state)
   return (
     <ListItemButtonContainer bottom={item.stickToBottom} root={root}>
       {unwrap && <StyledListSubtitle content={item.sidebarProps.text}/>}
       {!unwrap && <StyledListItemButton
         onClick={handleClick}
-        selected={routeState?.includes(item.state) && !open}
-        active={routeState?.includes(item.state) && open}
+        selected={routeState?.startsWith(item.state) && !open}
+        active={routeState?.startsWith(item.state) && open}
         variant={root ? "primary" : "secondary"}
         collapsable
         textVariant={textVariant}
