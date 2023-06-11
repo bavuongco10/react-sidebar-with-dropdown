@@ -53,20 +53,24 @@ const SidebarItemCollapse = ({item, root, textVariant, unwrap, full}: Props) => 
   }
   
   useEffect(() => {
-    if (routeState?.startsWith(item.state)) {
+    if (routeState?.startsWith(item.state) && full) {
       handleOpen(true);
     }
-  }, [routeState, item.state]);
+  }, [routeState, item.state, full]);
   
   useEffect(() => {
-    if (activeSidebarItem !== item.state) {
-      if (root && activeSidebarItem.startsWith(item.state)) return;
-      if (activeSidebarItem.startsWith(item.state)) return;
-      handleOpen(false);
-    }
+    if(!full) setOpen(false);
+  },[full]);
+  
+  useEffect(() => {
+    if (activeSidebarItem === item.state) return
+    if (root && activeSidebarItem.startsWith(item.state)) return;
+    if (activeSidebarItem.startsWith(item.state)) return;
+    handleOpen(false);
   }, [root, activeSidebarItem, item.state])
   
   if (!item.sidebarProps) return null;
+  
   return (
     <ListItemButtonContainer bottom={item.stickToBottom} root={root}>
       {unwrap && <StyledListSubtitle content={item.sidebarProps.text} />}
@@ -97,7 +101,7 @@ const SidebarItemCollapse = ({item, root, textVariant, unwrap, full}: Props) => 
         }}>
           {item.child?.map((route, index) => {
             if (!route.sidebarProps) return null;
-            if (route.child) return (<SidebarItemCollapse unwrap item={route} key={index}  textVariant="subTitle1" full={full}/>)
+            if (route.child) return (<SidebarItemCollapse unwrap item={route} key={index} textVariant="subTitle1" full={full}/>)
             return <SidebarItem item={route} key={index}  textVariant="subText1" full={full}/>
           })}
         </List>
