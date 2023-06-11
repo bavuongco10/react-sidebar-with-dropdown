@@ -15,12 +15,12 @@ type Props = {
   item: RouteType;
   root?: boolean;
   textVariant?: string;
+  full: boolean;
 };
 
-const SidebarItem = ({ item, root = false, textVariant }: Props) => {
+const SidebarItem = ({ item, root = false, textVariant, full  }: Props) => {
   const currentRoute = useCurrentRoute();
   const routeState = currentRoute?.state;
-  const sidebarOpen = useAtomValue(sidebarAtom);
   const [activeSidebarItem, setActiveSidebarItem] = useAtom(sidebarItemAtom);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   
@@ -80,8 +80,8 @@ const SidebarItem = ({ item, root = false, textVariant }: Props) => {
         <ListItemIcon>
           {item.sidebarProps.icon && item.sidebarProps.icon}
         </ListItemIcon>
-        {sidebarOpen && item.sidebarProps.text}
-        {sidebarOpen && item.sidebarProps.content}
+        {full && item.sidebarProps.text}
+        {full && item.sidebarProps.content}
       </StyledListItemButton>
       {item.type === "popup" && popper}
     </ListItemButtonContainer>

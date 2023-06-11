@@ -9,14 +9,13 @@ import {useCurrentRoute} from "../state/useCurrentRoute";
 import {StyledListItemButton} from "./StyledListItemButton";
 import {ListItemButtonContainer} from "./ListItemButtonContainer";
 import {sidebarItemAtom} from "../state/sidebarItem";
-import {useAtomValue} from "jotai";
-import {sidebarAtom} from "../state/sidebar";
 
 type Props = {
   item: RouteType;
   root?: boolean;
   textVariant?: string;
   unwrap?: boolean;
+  full?: boolean;
 };
 
 const StyledListSubtitle = ({content}: { content?: string }) => (
@@ -40,12 +39,11 @@ const StyledListSubtitle = ({content}: { content?: string }) => (
   </Box>
 )
 
-const SidebarItemCollapse = ({item, root, textVariant, unwrap}: Props) => {
+const SidebarItemCollapse = ({item, root, textVariant, unwrap, full}: Props) => {
   const [open, setOpen] = useState(unwrap);
   const [activeSidebarItem, setActiveSidebarItem] = useAtom(sidebarItemAtom);
   const currentRoute = useCurrentRoute();
   const routeState = currentRoute?.state;
-  const sidebarOpen = useAtomValue(sidebarAtom);
   
   const handleOpen = (value: boolean) => !unwrap && setOpen(value);
   
@@ -69,10 +67,9 @@ const SidebarItemCollapse = ({item, root, textVariant, unwrap}: Props) => {
   }, [root, activeSidebarItem, item.state])
   
   if (!item.sidebarProps) return null;
-  console.log(routeState, item.state)
   return (
     <ListItemButtonContainer bottom={item.stickToBottom} root={root}>
-      {unwrap && <StyledListSubtitle content={item.sidebarProps.text}/>}
+      {unwrap && <StyledListSubtitle content={item.sidebarProps.text} />}
       {!unwrap && <StyledListItemButton
         onClick={handleClick}
         selected={routeState?.startsWith(item.state) && !open}
@@ -84,14 +81,14 @@ const SidebarItemCollapse = ({item, root, textVariant, unwrap}: Props) => {
         <ListItemIcon>
           {item.sidebarProps.icon && item.sidebarProps.icon}
         </ListItemIcon>
-        {sidebarOpen && <ListItemText
+        {full && <ListItemText
           disableTypography
           primary={item.sidebarProps.text}
         />}
-        {sidebarOpen ? (open) ? <ExpandLessOutlinedIcon/> : <ExpandMoreOutlinedIcon/> : null}
+        {full ? (open) ? <ExpandLessOutlinedIcon/> : <ExpandMoreOutlinedIcon/> : null}
       </StyledListItemButton>
       }
-      {sidebarOpen && <Collapse in={open} timeout="auto">
+      {full && <Collapse in={open} timeout="auto">
         <List sx={{
           ...(unwrap ? {
             paddingTop: 0,
@@ -100,8 +97,8 @@ const SidebarItemCollapse = ({item, root, textVariant, unwrap}: Props) => {
         }}>
           {item.child?.map((route, index) => {
             if (!route.sidebarProps) return null;
-            if (route.child) return (<SidebarItemCollapse unwrap item={route} key={index}  textVariant="subTitle1"/>)
-            return <SidebarItem item={route} key={index}  textVariant="subText1"/>
+            if (route.child) return (<SidebarItemCollapse unwrap item={route} key={index}  textVariant="subTitle1" full={full}/>)
+            return <SidebarItem item={route} key={index}  textVariant="subText1" full={full}/>
           })}
         </List>
       </Collapse>

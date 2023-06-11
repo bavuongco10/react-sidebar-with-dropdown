@@ -54,9 +54,10 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 interface SidebarListProps {
   onMouseLeave?: () => void;
   onMouseEnter?: () => void;
+  full: boolean;
 }
 
-const SidebarList = ({ onMouseLeave, onMouseEnter }: SidebarListProps) => {
+const SidebarList = ({ onMouseLeave, onMouseEnter, full }: SidebarListProps) => {
   const sidebarOpen = useAtomValue(sidebarAtom);
   return (
     <List
@@ -83,8 +84,8 @@ const SidebarList = ({ onMouseLeave, onMouseEnter }: SidebarListProps) => {
       </ListSubheader>
       {appRoutes.map((route, index) => {
           if (!route.sidebarProps) return null;
-          if (route.child) return <SidebarItemCollapse item={route} key={route.state} root/>
-          return <SidebarItem key={route.state} item={route} root/>
+          if (route.child) return <SidebarItemCollapse item={route} key={route.state} root full={full}/>
+          return <SidebarItem key={route.state} item={route} root full={full}/>
         }
       )}
     </List>
@@ -97,6 +98,7 @@ const Sidebar = () => {
   const sidebarOpen = useAtomValue(sidebarAtom);
   const setActiveSidebarItem = useSetAtom(sidebarItemAtom);
   const [openTempoDrawer, setOpenTempoDrawer] = useState(false);
+  const full = openTempoDrawer || sidebarOpen || false;
   
   useEffect(() => {
     setActiveSidebarItem(routeState || "");
@@ -105,7 +107,7 @@ const Sidebar = () => {
   useEffect(() => {
     setActiveSidebarItem("");
   },[sidebarOpen, openTempoDrawer]);
-  
+
   return (
     <Box sx={{
       whiteSpace: 'nowrap',
@@ -127,14 +129,14 @@ const Sidebar = () => {
           }
         }}
       >
-        <SidebarList onMouseLeave={() => !sidebarOpen && setOpenTempoDrawer(false)} />
+        <SidebarList onMouseLeave={() => !sidebarOpen && setOpenTempoDrawer(false)} full/>
       </MuiDrawer>}
       {openTempoDrawer && <Box sx={{width: "80px", height: "100vh"}}/>}
       {!openTempoDrawer && <Drawer
         variant="permanent"
         open={sidebarOpen}
       >
-      <SidebarList onMouseEnter={() => !sidebarOpen && setOpenTempoDrawer(true)}/>
+      <SidebarList onMouseEnter={() => !sidebarOpen && setOpenTempoDrawer(true)} full={full} />
       </Drawer>
       }
     </Box>
