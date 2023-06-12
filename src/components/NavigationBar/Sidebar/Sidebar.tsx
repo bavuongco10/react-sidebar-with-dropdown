@@ -58,12 +58,11 @@ interface SidebarListProps {
 }
 
 const SidebarList = ({ onMouseLeave, onMouseEnter, full }: SidebarListProps) => {
-  const sidebarOpen = useAtomValue(sidebarAtom);
   return (
     <List
       onMouseLeave={onMouseLeave}
       onMouseEnter={onMouseEnter}
-      key={sidebarOpen?.toString()} disablePadding sx={{
+      key={full?.toString()} disablePadding sx={{
       display: "flex",
       flexDirection: "column",
       minHeight: "100%",
@@ -78,7 +77,7 @@ const SidebarList = ({ onMouseLeave, onMouseEnter, full }: SidebarListProps) => 
             spacing={2}
           >
             <img src={assets.images.logo} style={{height: "44px", background: "rgb(53,121,199)"}}/>
-            {sidebarOpen && <img src={assets.images.text} style={{height: "44px" }}/>}
+            {full && <img src={assets.images.text} style={{height: "44px" }}/>}
           </Stack>
         </Toolbar>
       </ListSubheader>
