@@ -8,8 +8,6 @@ import {StyledListItemButton} from "./StyledListItemButton";
 import {ListItemButtonContainer} from "./ListItemButtonContainer";
 import themeConfig from "../themeConfig";
 import {sidebarItemAtom} from "../state/sidebarItem";
-import {useAtomValue} from "jotai";
-import {sidebarAtom} from "../state/sidebar";
 
 type Props = {
   item: RouteType;
@@ -23,7 +21,7 @@ const SidebarItem = ({ item, root = false, textVariant, full  }: Props) => {
   const routeState = currentRoute?.state;
   const [activeSidebarItem, setActiveSidebarItem] = useAtom(sidebarItemAtom);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setActiveSidebarItem(item.state);
     if (item.type !== "popup") return;

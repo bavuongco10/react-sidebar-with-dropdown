@@ -6,10 +6,11 @@ import {RouteType} from "../../../routes/types";
 export const useCurrentRoute = () => {
   const [route, setRoute] = useState<RouteType>();
   const location = useLocation();
+  const pathname= location.pathname;
   
   useEffect(() => {
-    setRoute(flattenedRoutes[location.pathname]);
-  }, [location]);
+    setRoute(flattenedRoutes[pathname]);
+  }, [pathname]);
   
   return route;
 }
