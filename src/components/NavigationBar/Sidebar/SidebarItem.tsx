@@ -73,7 +73,7 @@ const SidebarItem = ({ item, root = false, textVariant, full  }: Props) => {
         {...item.path ? { component: Link } : {}}
         to={item.path}
         onClick={handleClick}
-        selected={routeState === item.state}
+        selected={(routeState || "home") === item.state}
         variant={root ? "primary" : "secondary"}
         textVariant={textVariant}
       >
