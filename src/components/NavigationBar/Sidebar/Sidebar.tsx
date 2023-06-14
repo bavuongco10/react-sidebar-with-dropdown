@@ -1,5 +1,4 @@
-import {Drawer as MuiDrawer, List, Stack, Box, Toolbar} from "@mui/material";
-import assets from "../../../assets";
+import {Drawer as MuiDrawer, List, Box, Toolbar} from "@mui/material";
 import {appRoutes} from "../../../routes/appRoutes";
 import SidebarItem from "./SidebarItem";
 import SidebarItemCollapse from "./SidebarItemCollapse";
@@ -7,7 +6,6 @@ import {useEffect, useState} from "react";
 import {useAtomValue, useSetAtom} from "jotai";
 import {useCurrentRoute} from "../state/useCurrentRoute";
 import {styled, Theme, CSSObject} from '@mui/material/styles';
-import { ListSubheader } from '@mui/material';
 import themeConfig from "../themeConfig";
 import {sidebarAtom} from "../state/sidebar";
 import {sidebarItemAtom} from "../state/sidebarItem";
@@ -66,21 +64,9 @@ const SidebarList = ({ onMouseLeave, onMouseEnter, full }: SidebarListProps) => 
       display: "flex",
       flexDirection: "column",
       minHeight: "100%",
-      overflowY: "auto"
+      overflowY: "auto",
     }}>
-      <ListSubheader>
-        <Toolbar sx={{marginBottom: "1rem"}}>
-          <Stack
-            sx={{width: "100%"}}
-            direction="row"
-            justifyContent="center"
-            spacing={2}
-          >
-            <img src={assets.images.logo} style={{height: "44px", background: "rgb(53,121,199)"}}/>
-            {full && <img src={assets.images.text} style={{height: "44px" }}/>}
-          </Stack>
-        </Toolbar>
-      </ListSubheader>
+      <Toolbar />
       {appRoutes.map((route, index) => {
           if (!route.sidebarProps) return null;
           if (route.child) return <SidebarItemCollapse item={route} key={route.state} root full={full}/>
