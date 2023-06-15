@@ -4,7 +4,7 @@ import {Box} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import assets from "../../../assets";
 
-const MenuButton = () => {
+const MenuButton = ({ open }: { open?: boolean }) => {
   const [sidebarOpen, toggleSidebar] = useAtom(sidebarAtom);
   
   return (
@@ -15,7 +15,7 @@ const MenuButton = () => {
       position: "absolute"
     }}>
       <IconButton onClick={() => toggleSidebar()}>
-        <img src={sidebarOpen ? assets.images.menuIconLeft : assets.images.menuIconRight} alt="menu" style={{height: "28px", width: "28px"}}/>
+        <img src={open ? assets.images.menuIconLeft : assets.images.menuIconRight} alt="menu" style={{height: "28px", width: "28px"}}/>
       </IconButton>
     </Box>
   )

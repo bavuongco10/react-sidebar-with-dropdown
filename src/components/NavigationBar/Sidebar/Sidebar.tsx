@@ -2,7 +2,7 @@ import {Drawer as MuiDrawer, List, Box, Toolbar} from "@mui/material";
 import {appRoutes} from "../../../routes/appRoutes";
 import SidebarItem from "./SidebarItem";
 import SidebarItemCollapse from "./SidebarItemCollapse";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useAtomValue, useSetAtom} from "jotai";
 import {useCurrentRoute} from "../state/useCurrentRoute";
 import {styled, Theme, CSSObject} from '@mui/material/styles';
@@ -93,7 +93,23 @@ const Sidebar = () => {
   useEffect(() => {
     setActiveSidebarItem("");
   },[sidebarOpen, openTempoDrawer]);
-
+  
+  const hoverTimeoutRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  
+  const handleOpenTempoDrawer = () => {
+    if(sidebarOpen) return;
+    hoverTimeoutRef.current = setTimeout(() => {
+      setOpenTempoDrawer(true)
+    }, 400);
+  }
+  
+  const handleCloseTempoDrawer = () => {
+    if(hoverTimeoutRef.current) {
+      clearTimeout(hoverTimeoutRef.current);
+    }
+    setOpenTempoDrawer(false)
+  }
+  
   return (
     <Box sx={{
       whiteSpace: 'nowrap',
@@ -105,7 +121,7 @@ const Sidebar = () => {
       lineHeight: "20px",
       position: "relative"
     }}>
-      <MenuButton />
+      {!openTempoDrawer && <MenuButton open={full} />}
       {openTempoDrawer && <MuiDrawer
         anchor="left"
         hideBackdrop
@@ -117,14 +133,21 @@ const Sidebar = () => {
           }
         }}
       >
-        <SidebarList onMouseLeave={() => !sidebarOpen && setOpenTempoDrawer(false)} full/>
+        <SidebarList
+          full
+          onMouseLeave={handleCloseTempoDrawer}
+        />
       </MuiDrawer>}
       {openTempoDrawer && <Box sx={{width: "80px", height: "100vh"}}/>}
       {!openTempoDrawer && <Drawer
         variant="permanent"
         open={sidebarOpen}
       >
-      <SidebarList onMouseEnter={() => !sidebarOpen && setOpenTempoDrawer(true)} full={full} />
+      <SidebarList
+        full={full}
+        onMouseLeave={handleCloseTempoDrawer}
+        onMouseEnter={handleOpenTempoDrawer}
+      />
       </Drawer>
       }
     </Box>

@@ -8,7 +8,6 @@ const MainLayout = () => {
     <Box sx={{ display: "flex" }}>
       <Topbar />
       <Sidebar />
-      {/*<MenuButton />*/}
       <Box
         component="main"
         sx={{
