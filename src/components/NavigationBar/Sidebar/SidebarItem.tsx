@@ -9,6 +9,7 @@ import {ListItemButtonContainer} from "./ListItemButtonContainer";
 import themeConfig from "../themeConfig";
 import {sidebarItemAtom} from "../state/sidebarItem";
 import assets from "../../../assets";
+import {activeSidebarItemLevel1Atom, activeSidebarItemLevel2Atom} from "../state/sidebar";
 
 type Props = {
   item: RouteType;
@@ -22,6 +23,9 @@ const SidebarItem = ({ item, root = false, textVariant, full  }: Props) => {
   const routeState = currentRoute?.state;
   const [activeSidebarItem, setActiveSidebarItem] = useAtom(sidebarItemAtom);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  
+  const [level1, setItemLevel1] = useAtom(activeSidebarItemLevel1Atom);
+  const [level2, setItemLevel2] = useAtom(activeSidebarItemLevel2Atom);
   
   const isProfile = item.state === "profile.my-profile";
   const isNotification = item.state === "notifications";
@@ -144,7 +148,7 @@ const SidebarItem = ({ item, root = false, textVariant, full  }: Props) => {
         {...item.path ? { component: Link } : {}}
         to={item.path}
         onClick={handleClick}
-        selected={(routeState || "home") === item.state}
+        selected={level2 === item.state}
         variant={root ? "primary" : "secondary"}
         textVariant={textVariant}
       >

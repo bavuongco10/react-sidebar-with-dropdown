@@ -140,7 +140,6 @@ export const appRoutes: Array<RouteType> = [
     ]
   },
   {
-    path:"/notifications",
     element: <GenericPage/>,
     state: "notifications",
     sidebarProps: {

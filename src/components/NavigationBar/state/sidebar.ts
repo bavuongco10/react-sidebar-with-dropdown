@@ -12,3 +12,8 @@ export function atomWithToggle(
 }
 
 export const sidebarAtom = atomWithToggle(true);
+
+
+export const activeSidebarItemLevel1Atom = atom("");
+export const activeSidebarItemLevel2Atom = atom("");
+export const activePopupAtom = atom("");

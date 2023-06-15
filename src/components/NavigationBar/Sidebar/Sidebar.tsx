@@ -3,11 +3,11 @@ import {appRoutes} from "../../../routes/appRoutes";
 import SidebarItem from "./SidebarItem";
 import SidebarItemCollapse from "./SidebarItemCollapse";
 import {useEffect, useRef, useState} from "react";
-import {useAtomValue, useSetAtom} from "jotai";
+import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import {useCurrentRoute} from "../state/useCurrentRoute";
 import {styled, Theme, CSSObject} from '@mui/material/styles';
 import themeConfig from "../themeConfig";
-import {sidebarAtom} from "../state/sidebar";
+import {activeSidebarItemLevel1Atom, activeSidebarItemLevel2Atom, sidebarAtom} from "../state/sidebar";
 import {sidebarItemAtom} from "../state/sidebarItem";
 import MenuButton from "./MenuButton";
 
@@ -85,6 +85,21 @@ const Sidebar = () => {
   const setActiveSidebarItem = useSetAtom(sidebarItemAtom);
   const [openTempoDrawer, setOpenTempoDrawer] = useState(false);
   const full = openTempoDrawer || sidebarOpen || false;
+  
+  const [level1, setItemLevel1] = useAtom(activeSidebarItemLevel1Atom);
+  const [level2, setItemLevel2] = useAtom(activeSidebarItemLevel2Atom);
+  console.log({level1, level2});
+  
+  useEffect(() => {
+    if(!routeState) return setItemLevel1("home");
+ 
+    const parts = routeState.split(".");
+    const [level1] = parts;
+    setItemLevel1(level1);
+    setItemLevel2(routeState);
+    
+  },[routeState])
+  
   
   useEffect(() => {
     setActiveSidebarItem(routeState || "");

@@ -9,6 +9,7 @@ import {useCurrentRoute} from "../state/useCurrentRoute";
 import {StyledListItemButton} from "./StyledListItemButton";
 import {ListItemButtonContainer} from "./ListItemButtonContainer";
 import {sidebarItemAtom} from "../state/sidebarItem";
+import {activeSidebarItemLevel1Atom, activeSidebarItemLevel2Atom} from "../state/sidebar";
 
 type Props = {
   item: RouteType;
@@ -45,6 +46,9 @@ const SidebarItemCollapse = ({item, root, textVariant, unwrap, full}: Props) => 
   const currentRoute = useCurrentRoute();
   const routeState = currentRoute?.state;
   
+  const [level1, setItemLevel1] = useAtom(activeSidebarItemLevel1Atom);
+  const [level2, setItemLevel2] = useAtom(activeSidebarItemLevel2Atom);
+  
   const handleOpen = (value: boolean) => !unwrap && setOpen(value);
   
   const handleClick = () => {
@@ -70,14 +74,14 @@ const SidebarItemCollapse = ({item, root, textVariant, unwrap, full}: Props) => 
   }, [root, activeSidebarItem, item.state])
   
   if (!item.sidebarProps) return null;
-  
+
   return (
     <ListItemButtonContainer bottom={item.stickToBottom} root={root}>
       {unwrap && <StyledListSubtitle content={item.sidebarProps.text} />}
       {!unwrap && <StyledListItemButton
         onClick={handleClick}
-        selected={routeState?.startsWith(item.state) && !open}
-        active={routeState?.startsWith(item.state) && open}
+        selected={!open && level1 === item.state}
+        active={open && level1 == item.state}
         variant={root ? "primary" : "secondary"}
         collapsable
         textVariant={textVariant}
