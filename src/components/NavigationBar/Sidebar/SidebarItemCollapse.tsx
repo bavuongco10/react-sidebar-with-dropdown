@@ -83,16 +83,12 @@ const SidebarItemCollapse = ({item, root, textVariant, unwrap, full}: Props) => 
         selected={!open && level2.startsWith(item.state)}
         active={open && level2.startsWith(item.state)}
         variant={root ? "primary" : "secondary"}
-        collapsable
         textVariant={textVariant}
       >
         <ListItemIcon>
           {item.sidebarProps.icon && item.sidebarProps.icon}
         </ListItemIcon>
-        {full && <ListItemText
-          disableTypography
-          primary={item.sidebarProps.text}
-        />}
+        {full && <ListItemText disableTypography primary={item.sidebarProps.text} />}
         {full ? (open) ? <ExpandLessOutlinedIcon/> : <ExpandMoreOutlinedIcon/> : null}
       </StyledListItemButton>
       }

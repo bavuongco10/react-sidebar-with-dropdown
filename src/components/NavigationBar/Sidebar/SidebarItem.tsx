@@ -1,4 +1,4 @@
-import {Box, ListItemIcon, Popper, Stack} from "@mui/material";
+import {Box, List, ListItemButton, ListItemIcon, ListItemText, Popper, Stack} from "@mui/material";
 import {RouteType} from "../../../routes/types";
 import {Link} from "react-router-dom";
 import React, {useEffect} from "react";
@@ -54,17 +54,10 @@ const SidebarItem = ({ item, root = false, textVariant, full  }: Props) => {
     if(item.type !== "popup") return;
     if(level2 !== item.state) {
       setAnchorEl(null);
+      // setReCal(new Date().getTime());
     }
   },[level2, item.state])
   
-  
-  // const isPopup =  item.type === "popup";
-  
-  // useEffect(() => {
-  //   if(activeSidebarItem !== item.state) {
-  //     setAnchorEl(null)
-  //   };
-  // },[activeSidebarItem, item.state])
   
   const popper1 = (
     <Popper open={open} anchorEl={anchorEl} placement="right-start" sx={{
@@ -99,9 +92,7 @@ const SidebarItem = ({ item, root = false, textVariant, full  }: Props) => {
       zIndex: "3000"
     }}>
       <Box sx={{
-        padding: "24px",
         width: "180px",
-        height: "272px",
         background: "white",
         boxShadow: "0px 2px 6px 2px rgba(167, 167, 167, 0.5)",
         borderRadius: "1rem"
@@ -115,48 +106,46 @@ const SidebarItem = ({ item, root = false, textVariant, full  }: Props) => {
           alignItems: "center",
           color: "#19181A",
         }}>
-          <Stack spacing={2.5}>
-            <Stack
-              direction="row"
-              spacing={2.5}
-              alignItems="center"
+          <List sx={{
+            width: "100%"
+          }}>
+            <ListItemButton
             >
-              <img src={assets.images.flagUS} />
+              <ListItemIcon>
+                <img src={assets.images.flagUS} />
+              </ListItemIcon>
               <span>English</span>
-            </Stack>
-            <Stack
-              direction="row"
-              spacing={2.5}
-              alignItems="center"
+            </ListItemButton>
+            <ListItemButton
             >
+              <ListItemIcon>
               <img src={require('../../../assets/images/germany.png')} />
+              </ListItemIcon>
               <span>German</span>
-            </Stack>
-            <Stack
-              direction="row"
-              spacing={2.5}
-              alignItems="center"
+            </ListItemButton>
+            <ListItemButton
             >
+              <ListItemIcon>
               <img src={require('../../../assets/images/french.png')} />
+              </ListItemIcon>
               <span>French</span>
-            </Stack>
-            <Stack
-              direction="row"
-              spacing={2.5}
-              alignItems="center"
+            </ListItemButton>
+            <ListItemButton
             >
+              <ListItemIcon>
+              
               <img src={require('../../../assets/images/spain.png')} />
+              </ListItemIcon>
               <span>Spanish</span>
-            </Stack>
-            <Stack
-              direction="row"
-              spacing={2.5}
-              alignItems="center"
+            </ListItemButton>
+            <ListItemButton
             >
+              <ListItemIcon>
               <img src={require('../../../assets/images/japan.png')} />
+              </ListItemIcon>
               <span>Japanese</span>
-            </Stack>
-          </Stack>
+            </ListItemButton>
+          </List>
         </Box>
       </Box>
     </Popper>
@@ -177,7 +166,7 @@ const SidebarItem = ({ item, root = false, textVariant, full  }: Props) => {
         <ListItemIcon>
           {item.sidebarProps.icon && item.sidebarProps.icon}
         </ListItemIcon>
-        {full && item.sidebarProps.text}
+        {full && <ListItemText disableTypography primary={item.sidebarProps.text} />}
         {full && item.sidebarProps.content}
       </StyledListItemButton>
       {item.type === "popup" && isNotification && popper1}

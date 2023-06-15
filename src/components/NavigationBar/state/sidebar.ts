@@ -16,5 +16,6 @@ export const sidebarAtom = atomWithToggle(true);
 
 export const activeSidebarItemLevel1Atom = atom("");
 export const activeSidebarItemLevel2Atom = atom("");
+export const activeSidebarCollapseAtom = atom("");
 export const activePopupAtom = atom("");
 export const reCalAtom = atom(new Date().getTime());
