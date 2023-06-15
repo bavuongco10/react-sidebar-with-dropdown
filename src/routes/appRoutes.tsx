@@ -191,7 +191,7 @@ export const appRoutes: Array<RouteType> = [
     child: [
       generateRoute("/profile", "My Profile"),
       {
-        ...generateRoute("/profile", "My Profile"),
+        ...generateRoute("/profile", "Language"),
         path: undefined,
         sidebarProps: {
           icon: <img src={assets.images.flagUS} />,

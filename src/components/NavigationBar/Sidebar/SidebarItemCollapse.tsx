@@ -81,7 +81,7 @@ const SidebarItemCollapse = ({item, root, textVariant, unwrap, full}: Props) => 
       {!unwrap && <StyledListItemButton
         onClick={handleClick}
         selected={!open && level1 === item.state}
-        active={open && level1 == item.state}
+        active={open && level1 === item.state}
         variant={root ? "primary" : "secondary"}
         collapsable
         textVariant={textVariant}
