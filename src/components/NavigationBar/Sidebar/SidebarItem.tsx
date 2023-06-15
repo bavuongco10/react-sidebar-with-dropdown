@@ -33,8 +33,9 @@ const SidebarItem = ({ item, root = false, textVariant, full  }: Props) => {
   const isNotification = item.state === "notifications";
   
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setActiveSidebarItem(item.state);
+    // setActiveSidebarItem(item.state);
     if (item.type !== "popup") return;
+    setItemLevel2(item.state);
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
   
