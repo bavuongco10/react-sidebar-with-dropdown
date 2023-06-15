@@ -18,11 +18,16 @@ const Topbar = () => {
       }}
     >
       <Toolbar sx={{
-        width: sidebarOpen ? themeConfig.width.sidebar.full : themeConfig.width.sidebar.mini
+        width: themeConfig.width.sidebar.full
       }}>
-        <Stack direction="row" spacing={2}>
-          <img src={assets.images.logo} style={{height: "44px", background: "rgb(53,121,199)"}}/>
-          <img src={assets.images.text} style={{height: "44px" }}/>
+        <Stack
+          sx={{ width: "100%"}}
+          direction="row" spacing={2}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <img src={assets.images.logo} style={{height: "32px", background: "rgb(53,121,199)"}}/>
+          <img src={assets.images.text} style={{height: "32px" }}/>
         </Stack>
       </Toolbar>
     </AppBar>

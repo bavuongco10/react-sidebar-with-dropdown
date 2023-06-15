@@ -9,7 +9,7 @@ import {ListItemButtonContainer} from "./ListItemButtonContainer";
 import themeConfig from "../themeConfig";
 import {sidebarItemAtom} from "../state/sidebarItem";
 import assets from "../../../assets";
-import {activeSidebarItemLevel1Atom, activeSidebarItemLevel2Atom} from "../state/sidebar";
+import {activeSidebarItemLevel1Atom, activeSidebarItemLevel2Atom, reCalAtom} from "../state/sidebar";
 
 type Props = {
   item: RouteType;
@@ -26,7 +26,8 @@ const SidebarItem = ({ item, root = false, textVariant, full  }: Props) => {
   
   const [level1, setItemLevel1] = useAtom(activeSidebarItemLevel1Atom);
   const [level2, setItemLevel2] = useAtom(activeSidebarItemLevel2Atom);
-  
+  const [reCal, setReCal] = useAtom(reCalAtom);
+
   const isProfile = item.state === "profile.my-profile";
   const isNotification = item.state === "notifications";
   
@@ -37,12 +38,29 @@ const SidebarItem = ({ item, root = false, textVariant, full  }: Props) => {
   };
   
   const open = Boolean(anchorEl);
+  // const isPopup =  item.type === "popup";
+  // useEffect(() => {
+  //
+  //   if(open) {
+  //     setItemLevel2(item.state);
+  //   } else {
+  //     console.log(open)
+  //     setReCal(new Date().getTime());
+  //   }
+  // },[type, open, level2, item.state])
+  //
+  // useEffect(() => {
+  //   if(level2 !== item.state) {
+  //     setAnchorEl(null)
+  //   };
+  // },[open, level2, item.state])
   
-  useEffect(() => {
-    if(activeSidebarItem !== item.state) {
-      setAnchorEl(null)
-    };
-  },[activeSidebarItem, item.state])
+  
+  // useEffect(() => {
+  //   if(activeSidebarItem !== item.state) {
+  //     setAnchorEl(null)
+  //   };
+  // },[activeSidebarItem, item.state])
   
   const popper1 = (
     <Popper open={open} anchorEl={anchorEl} placement="right-start" sx={{

@@ -7,7 +7,7 @@ import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import {useCurrentRoute} from "../state/useCurrentRoute";
 import {styled, Theme, CSSObject} from '@mui/material/styles';
 import themeConfig from "../themeConfig";
-import {activeSidebarItemLevel1Atom, activeSidebarItemLevel2Atom, sidebarAtom} from "../state/sidebar";
+import {activeSidebarItemLevel1Atom, activeSidebarItemLevel2Atom, reCalAtom, sidebarAtom} from "../state/sidebar";
 import {sidebarItemAtom} from "../state/sidebarItem";
 import MenuButton from "./MenuButton";
 
@@ -88,7 +88,7 @@ const Sidebar = () => {
   
   const [level1, setItemLevel1] = useAtom(activeSidebarItemLevel1Atom);
   const [level2, setItemLevel2] = useAtom(activeSidebarItemLevel2Atom);
-  console.log({level1, level2});
+  const [reCal, setReCal] = useAtom(reCalAtom);
   
   useEffect(() => {
     if(!routeState) return setItemLevel1("home");
@@ -98,7 +98,7 @@ const Sidebar = () => {
     setItemLevel1(level1);
     setItemLevel2(routeState);
     
-  },[routeState])
+  },[routeState, reCal])
   
   
   useEffect(() => {
