@@ -8,6 +8,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/LogoutOutlined';
 import {Outlet} from "react-router-dom";
 import {Stack, Typography} from "@mui/material";
+import assets from "../assets";
+import React from "react";
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 const GenericPage = () => <Typography variant="body1">Content: Generic page</Typography>
 
@@ -189,18 +192,39 @@ export const appRoutes: Array<RouteType> = [
     child: [
       generateRoute("/profile", "My Profile"),
       {
+        ...generateRoute("/profile", "My Profile"),
+        path: undefined,
+        sidebarProps: {
+          icon: <img src={assets.images.flagUS} />,
+          content: (
+            <Stack
+              sx={{width: "100%"}}
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <span>Language</span>
+              <span><ChevronRightIcon /></span>
+            </Stack>
+          )
+        },
+        type: "popup"
+      },
+      {
         ...generateRoute("/profile", "Preferences"),
         child: [
           generateRoute("/profile/Preferences", "Notification Settings"),
           {
             ...generateRoute("/profile/Preferences", "About"),
             sidebarProps: {
-              content: (<Stack
-                sx={{width: "100%"}}
-                direction="row" justifyContent="space-between">
-                <span>About</span>
-                <span>V2.5.0</span>
-              </Stack>)
+              content: (
+                <Stack
+                  sx={{width: "100%"}}
+                  direction="row" justifyContent="space-between">
+                  <span>About</span>
+                  <span>V2.5.0</span>
+                </Stack>
+              )
             },
           },
           {

@@ -7,6 +7,7 @@ const assets = {
     text: require("./images/ts-text.png"),
     menuIconLeft,
     menuIconRight,
+    flagUS: require("./images/united-states.png"),
   }
 };
 
