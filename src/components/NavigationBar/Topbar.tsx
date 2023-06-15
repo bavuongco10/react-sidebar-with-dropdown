@@ -1,4 +1,4 @@
-import { AppBar, Box, Toolbar } from "@mui/material";
+import {AppBar, Box, Stack, Toolbar} from "@mui/material";
 import assets from "../../assets";
 import {useAtomValue} from "jotai";
 import {sidebarAtom} from "./state/sidebar";
@@ -20,10 +20,10 @@ const Topbar = () => {
       <Toolbar sx={{
         width: sidebarOpen ? themeConfig.width.sidebar.full : themeConfig.width.sidebar.mini
       }}>
-        <Box>
-          <img src={assets.images.logo} style={{height: "44px", background: "rgb(53,121,199)", marginRight: "4px"}}/>
+        <Stack direction="row" spacing={2}>
+          <img src={assets.images.logo} style={{height: "44px", background: "rgb(53,121,199)"}}/>
           <img src={assets.images.text} style={{height: "44px" }}/>
-        </Box>
+        </Stack>
       </Toolbar>
     </AppBar>
   );

@@ -9,6 +9,7 @@ import {styled, Theme, CSSObject} from '@mui/material/styles';
 import themeConfig from "../themeConfig";
 import {sidebarAtom} from "../state/sidebar";
 import {sidebarItemAtom} from "../state/sidebarItem";
+import MenuButton from "./MenuButton";
 
 const openedMixin = (theme: Theme): CSSObject => ({
   borderRight: "0px",
@@ -102,7 +103,9 @@ const Sidebar = () => {
       fontWeight: "medium",
       fontSize: "16px",
       lineHeight: "20px",
+      position: "relative"
     }}>
+      <MenuButton />
       {openTempoDrawer && <MuiDrawer
         anchor="left"
         hideBackdrop
