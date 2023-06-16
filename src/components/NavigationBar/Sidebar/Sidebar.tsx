@@ -7,8 +7,13 @@ import {useAtom, useAtomValue, useSetAtom} from "jotai";
 import {useCurrentRoute} from "../state/useCurrentRoute";
 import {styled, Theme, CSSObject} from '@mui/material/styles';
 import themeConfig from "../themeConfig";
-import {activeSidebarItemLevel1Atom, activeSidebarItemLevel2Atom, reCalAtom, sidebarAtom} from "../state/sidebar";
-import {sidebarItemAtom} from "../state/sidebarItem";
+import {
+  activeSidebarCollapseAtom,
+  activeSidebarItemLevel1Atom,
+  activeSidebarItemLevel2Atom,
+  reCalAtom,
+  sidebarAtom
+} from "../state/sidebar";
 import MenuButton from "./MenuButton";
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -82,13 +87,18 @@ const Sidebar = () => {
   const currentRoute = useCurrentRoute();
   const routeState = currentRoute?.state;
   const sidebarOpen = useAtomValue(sidebarAtom);
-  const setActiveSidebarItem = useSetAtom(sidebarItemAtom);
   const [openTempoDrawer, setOpenTempoDrawer] = useState(false);
   const full = openTempoDrawer || sidebarOpen || false;
   
   const [level1, setItemLevel1] = useAtom(activeSidebarItemLevel1Atom);
   const [level2, setItemLevel2] = useAtom(activeSidebarItemLevel2Atom);
   const [reCal, setReCal] = useAtom(reCalAtom);
+  const [activeSidebarCollapse, setActiveSidebarCollapse] = useAtom(activeSidebarCollapseAtom);
+  
+  useEffect(() => {
+    setReCal(new Date().getTime());
+    setActiveSidebarCollapse("");
+  },[full])
   
   useEffect(() => {
     if(!routeState) return setItemLevel1("home");
@@ -99,15 +109,6 @@ const Sidebar = () => {
     setItemLevel2(routeState);
     
   },[routeState, reCal])
-  
-  
-  useEffect(() => {
-    setActiveSidebarItem(routeState || "");
-  }, [routeState]);
-  
-  useEffect(() => {
-    setActiveSidebarItem("");
-  },[sidebarOpen, openTempoDrawer]);
   
   const hoverTimeoutRef = useRef<ReturnType<typeof setInterval> | null>(null);
   

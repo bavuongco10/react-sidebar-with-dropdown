@@ -1,5 +1,5 @@
 import {Box, Collapse, List, ListItemIcon, ListItemText} from "@mui/material";
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {RouteType} from "../../../routes/types";
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined';
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined';
@@ -8,8 +8,12 @@ import {useAtom} from "jotai";
 import {useCurrentRoute} from "../state/useCurrentRoute";
 import {StyledListItemButton} from "./StyledListItemButton";
 import {ListItemButtonContainer} from "./ListItemButtonContainer";
-import {sidebarItemAtom} from "../state/sidebarItem";
-import {activeSidebarItemLevel1Atom, activeSidebarItemLevel2Atom} from "../state/sidebar";
+import {
+  activeSidebarCollapseAtom,
+  activeSidebarItemLevel1Atom,
+  activeSidebarItemLevel2Atom,
+  reCalAtom
+} from "../state/sidebar";
 
 type Props = {
   item: RouteType;
@@ -41,47 +45,39 @@ const StyledListSubtitle = ({content}: { content?: string }) => (
 )
 
 const SidebarItemCollapse = ({item, root, textVariant, unwrap, full}: Props) => {
-  const [open, setOpen] = useState(unwrap);
-  const [activeSidebarItem, setActiveSidebarItem] = useAtom(sidebarItemAtom);
   const currentRoute = useCurrentRoute();
   const routeState = currentRoute?.state;
   
-  const [level1, setItemLevel1] = useAtom(activeSidebarItemLevel1Atom);
+  const [activeSidebarCollapse, setActiveSidebarCollapse] = useAtom(activeSidebarCollapseAtom);
   const [level2, setItemLevel2] = useAtom(activeSidebarItemLevel2Atom);
-  
-  const handleOpen = (value: boolean) => !unwrap && setOpen(value);
+  const [reCal, setReCal] = useAtom(reCalAtom);
   
   const handleClick = () => {
-    handleOpen(!open);
-    setActiveSidebarItem(item.state);
+    if(activeSidebarCollapse === item.state) {
+      setActiveSidebarCollapse("");
+    } else {
+      setActiveSidebarCollapse(item.state);
+    }
+    setReCal(new Date().getTime());
   }
   
   useEffect(() => {
     if (routeState?.startsWith(item.state) && full) {
-      handleOpen(true);
     }
   }, [routeState, item.state, full]);
   
-  useEffect(() => {
-    if(!full) setOpen(false);
-  },[full]);
-  
-  useEffect(() => {
-    if (activeSidebarItem === item.state) return
-    if (root && activeSidebarItem.startsWith(item.state)) return;
-    if (activeSidebarItem.startsWith(item.state)) return;
-    handleOpen(false);
-  }, [root, activeSidebarItem, item.state])
   
   if (!item.sidebarProps) return null;
 
+  const menuOpen = unwrap || activeSidebarCollapse === item.state;
+  
   return (
     <ListItemButtonContainer bottom={item.stickToBottom} root={root}>
       {unwrap && <StyledListSubtitle content={item.sidebarProps.text} />}
       {!unwrap && <StyledListItemButton
         onClick={handleClick}
-        selected={!open && level2.startsWith(item.state)}
-        active={open && level2.startsWith(item.state)}
+        selected={!menuOpen && level2.startsWith(item.state)}
+        active={menuOpen && level2.startsWith(item.state)}
         variant={root ? "primary" : "secondary"}
         textVariant={textVariant}
       >
@@ -89,10 +85,10 @@ const SidebarItemCollapse = ({item, root, textVariant, unwrap, full}: Props) => 
           {item.sidebarProps.icon && item.sidebarProps.icon}
         </ListItemIcon>
         {full && <ListItemText disableTypography primary={item.sidebarProps.text} />}
-        {full ? (open) ? <ExpandLessOutlinedIcon/> : <ExpandMoreOutlinedIcon/> : null}
+        {full ? (menuOpen) ? <ExpandLessOutlinedIcon/> : <ExpandMoreOutlinedIcon/> : null}
       </StyledListItemButton>
       }
-      {full && <Collapse in={open} timeout="auto">
+      {full && <Collapse in={menuOpen} timeout="auto">
         <List sx={{
           ...(unwrap ? {
             paddingTop: 0,
