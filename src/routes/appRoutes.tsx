@@ -32,7 +32,7 @@ export const appRoutes: Array<RouteType> = [
     state: "home"
   },
   {
-    path: "/home",
+    path: "/",
     element: <GenericPage/>,
     state: "home",
     sidebarProps: {
