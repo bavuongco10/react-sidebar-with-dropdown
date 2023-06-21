@@ -191,28 +191,35 @@ export const appRoutes: Array<RouteType> = [
     child: [
       generateRoute("/profile", "My Profile"),
       {
-        ...generateRoute("/profile", "Language"),
-        path: undefined,
-        sidebarProps: {
-          icon: <img src={assets.images.flagUS} />,
-          content: (
-            <Stack
-              sx={{width: "100%"}}
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <span>Language</span>
-              <span><ChevronRightIcon /></span>
-            </Stack>
-          )
-        },
-        type: "popup"
-      },
-      {
         ...generateRoute("/profile", "Preferences"),
         child: [
           generateRoute("/profile/Preferences", "Notification Settings"),
+          {
+            ...generateRoute("/profile/Preferences", "Language"),
+            path: undefined,
+            sidebarProps: {
+              icon: <img src={assets.images.flagUS} />,
+              content: (
+                <Stack
+                  sx={{width: "100%"}}
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                >
+                  <span>Language</span>
+                  <span><ChevronRightIcon /></span>
+                </Stack>
+              )
+            },
+            type: "popup"
+          },
+          {
+            ...generateRoute("/profile/Preferences", "Logout"),
+            sidebarProps: {
+              text: "Logout",
+              icon: <LogoutIcon/>
+            },
+          },
           {
             ...generateRoute("/profile/Preferences", "About"),
             sidebarProps: {
@@ -224,13 +231,6 @@ export const appRoutes: Array<RouteType> = [
                   <span>V2.5.0</span>
                 </Stack>
               )
-            },
-          },
-          {
-            ...generateRoute("/profile/Preferences", "Logout"),
-            sidebarProps: {
-              text: "Logout",
-              icon: <LogoutIcon/>
             },
           },
         ]

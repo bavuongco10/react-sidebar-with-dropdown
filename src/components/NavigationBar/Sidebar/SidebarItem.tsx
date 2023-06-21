@@ -29,7 +29,7 @@ const SidebarItem = ({ item, root = false, textVariant, full }: Props) => {
   const [reCal, setReCal] = useAtom(reCalAtom);
   const [activeSidebarCollapse, setActiveSidebarCollapse] = useAtom(activeSidebarCollapseAtom);
 
-  const isProfile = item.state === "profile.language";
+  const isProfile = item.state.includes("language");
   const isNotification = item.state === "notifications";
   
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
